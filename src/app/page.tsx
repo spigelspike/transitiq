@@ -185,8 +185,8 @@ export default function LandingPage() {
             </motion.div>
           </div>
 
-          {/* Floating Logos (Desktop only) */}
-          <div className="hidden lg:block absolute inset-0 pointer-events-none z-10 max-w-[90rem] mx-auto">
+          {/* Floating Logos (Mobile & Desktop) */}
+          <div className="absolute inset-0 pointer-events-none z-0 lg:z-10 max-w-[90rem] mx-auto overflow-hidden lg:overflow-visible opacity-40 lg:opacity-100">
             {[
               { src: "/logos/fedex.svg", top: "45%", left: "12%", delay: 0, duration: 5, rotate: -5, w: "w-28" },
               { src: "/logos/ups.svg", top: "45%", right: "18%", delay: 1, duration: 6, rotate: 5, w: "w-16" },
