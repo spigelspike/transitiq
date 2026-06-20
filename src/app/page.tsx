@@ -3,8 +3,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { Search, Package, Truck, LayoutDashboard, Sparkles, BarChart3, Users2, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
+import { Search, Package, Truck, LayoutDashboard, Sparkles, BarChart3, Users2, CheckCircle2, AlertCircle, ArrowRight, Star } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
+import BoxSequence from "@/components/landing/BoxSequence";
 import { mockShipments } from "@/lib/mock-data";
 import { Shipment } from "@/types/shipment";
 
@@ -37,36 +38,6 @@ export default function LandingPage() {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [searchResult, setSearchResult] = useState<Shipment | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
-  const [activeItems, setActiveItems] = useState<any[]>([]);
-
-  // Live Activity Feed Simulation
-  useEffect(() => {
-    const recentEvents = mockShipments
-      .flatMap(s => s.events.map(e => ({ 
-        ...e, 
-        carrier: s.carrier.name, 
-        tracking: s.trackingNumber, 
-        recipient: s.recipient 
-      })))
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-      .slice(0, 20);
-
-    let index = 0;
-    const initialItems = recentEvents.slice(0, 4);
-    setActiveItems(initialItems);
-
-    const interval = setInterval(() => {
-      index = (index + 1) % recentEvents.length;
-      const newItem = recentEvents[index];
-      setActiveItems(prev => {
-        const next = [newItem, ...prev];
-        if (next.length > 5) next.pop();
-        return next;
-      });
-    }, 3500);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const executeSearch = (query: string) => {
     if (!query.trim()) return;
@@ -213,41 +184,30 @@ export default function LandingPage() {
             </motion.div>
           </div>
 
-          {/* Floating Cards (Desktop only) */}
-          <div className="hidden lg:block absolute inset-0 pointer-events-none z-10 max-w-7xl mx-auto">
-            <motion.div 
-              animate={{ y: [0, -15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute left-[5%] top-[40%] bg-white border border-slate-100 p-4 rounded-2xl shadow-2xl shadow-slate-200/50 w-64 rotate-[-2deg]"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-xl">📦</span>
-                <span className="text-sm font-bold text-slate-900 truncate">Wireless Earbuds Pro</span>
-              </div>
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-xs font-semibold text-slate-500">FedEx Express</span>
-                <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-100 text-blue-700">In Transit</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-1.5 mb-2"><div className="bg-blue-500 h-1.5 rounded-full w-[60%]"></div></div>
-              <p className="text-[10px] font-medium text-slate-400">New York → Los Angeles</p>
-            </motion.div>
-
-            <motion.div 
-              animate={{ y: [0, 15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute right-[5%] top-[30%] bg-white border border-slate-100 p-4 rounded-2xl shadow-2xl shadow-slate-200/50 w-64 rotate-[2deg]"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-xl">💻</span>
-                <span className="text-sm font-bold text-slate-900 truncate">MacBook Pro 14-inch</span>
-              </div>
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-xs font-semibold text-slate-500">UPS Ground</span>
-                <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">Out for Delivery</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-1.5 mb-2"><div className="bg-indigo-500 h-1.5 rounded-full w-[85%]"></div></div>
-              <p className="text-[10px] font-medium text-slate-400">Chicago → Miami</p>
-            </motion.div>
+          {/* Floating Logos (Desktop only) */}
+          <div className="hidden lg:block absolute inset-0 pointer-events-none z-10 max-w-[90rem] mx-auto">
+            {[
+              { src: "/logos/fedex.svg", top: "45%", left: "12%", delay: 0, duration: 5, rotate: -5, w: "w-28" },
+              { src: "/logos/ups.svg", top: "45%", right: "18%", delay: 1, duration: 6, rotate: 5, w: "w-16" },
+              { src: "/logos/dhl.svg", top: "65%", left: "18%", delay: 2, duration: 5.5, rotate: -2, w: "w-32" },
+              { src: "/logos/armex.svg", top: "28%", right: "22%", delay: 0.5, duration: 6.5, rotate: 3, w: "w-28" },
+              { src: "/logos/bluedart.png", top: "20%", left: "15%", delay: 1.5, duration: 4.8, rotate: -4, w: "w-36" },
+            ].map((logo, i) => (
+              <motion.div
+                key={i}
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: logo.duration, repeat: Infinity, ease: "easeInOut", delay: logo.delay }}
+                className={`absolute flex items-center justify-center ${logo.w}`}
+                style={{ top: logo.top, left: logo.left, right: logo.right, rotate: `${logo.rotate}deg` }}
+              >
+                <img src={logo.src} alt="Carrier Logo" className="w-full h-auto object-contain mix-blend-multiply opacity-80" />
+              </motion.div>
+            ))}
           </div>
         </section>
+
+        {/* ── BOX SEQUENCE ANIMATION ──────────────────────────────────── */}
+        <BoxSequence />
 
         {/* ── SECTION 2: CARRIERS ──────────────────────────────────────── */}
         <section id="carriers" className="py-10 bg-white border-y border-slate-100">
@@ -319,43 +279,57 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ── SECTION 5: LIVE ACTIVITY FEED ────────────────────────────── */}
+        {/* ── SECTION 5: CUSTOMER REVIEWS ────────────────────────────── */}
         <section className="py-24 bg-slate-50 overflow-hidden relative">
-          <div className="absolute inset-0 dot-grid z-0 opacity-50"></div>
-          <div className="container relative z-10 mx-auto px-6 max-w-4xl text-center">
-            <motion.h2 variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Shipments moving right now</motion.h2>
-            <motion.p variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-lg text-slate-500 font-medium mb-12">Real-time feed of delivery events across the platform</motion.p>
+          <div className="container relative z-10 mx-auto px-6 max-w-6xl text-center">
+            <motion.h2 variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Loved by logistics teams</motion.h2>
+            <motion.p variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-lg text-slate-500 font-medium mb-16 max-w-2xl mx-auto">See how top companies are using TransitIQ to streamline their supply chain and improve delivery times.</motion.p>
             
-            <div className="relative bg-white border border-slate-200 rounded-[2rem] p-4 md:p-8 shadow-2xl shadow-slate-200/50 text-left h-[400px] overflow-hidden flex flex-col justify-end">
-              <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none"></div>
+            <div className="relative w-full overflow-hidden flex py-10 mt-8">
+              {/* Fade Gradients for Marquee edges */}
+              <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
               
-              <AnimatePresence>
-                {activeItems.map((item, i) => (
-                  <motion.div 
-                    key={item.id + i}
-                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                    transition={{ duration: 0.4 }}
-                    className="flex items-start gap-4 p-4 border-b border-slate-100 last:border-0 bg-white"
+              <motion.div 
+                className="flex gap-6 pr-6 w-max text-left"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ ease: "linear", duration: 45, repeat: Infinity }}
+              >
+                {[
+                  { name: "Sarah Jenkins", role: "Logistics Director, TechFlow", text: "TransitIQ completely changed how we manage our shipments. We used to check 5 different portals daily. Now it's all in one beautiful dashboard." },
+                  { name: "David Chen", role: "Operations Manager, Lumina", text: "The predictive alerts have saved us thousands in potential refund claims. It flags delayed shipments before the customer even notices." },
+                  { name: "Elena Rodriguez", role: "Supply Chain Lead, AutoParts Co", text: "Finally, a tracking tool that doesn't look like it was built in 2005. The UI is stunning and the carrier integrations are flawless." },
+                  { name: "Michael Chang", role: "E-commerce Founder, Nova", text: "Integration took exactly 5 minutes. The API is robust and the webhook events trigger instantly. Best decision we've made this year." },
+                  { name: "Rachel Adams", role: "Fulfillment Specialist, Zenith", text: "The cross-carrier unified view is a total game-changer for our team. I can search across FedEx and DHL simultaneously without thinking." },
+                  { name: "Tom Hollander", role: "Warehouse Manager, Prime", text: "No more juggling 6 different tracking portals. Flawless execution. The visualization helps us spot delays instantly." },
+                  // Duplicated for seamless loop
+                  { name: "Sarah Jenkins", role: "Logistics Director, TechFlow", text: "TransitIQ completely changed how we manage our shipments. We used to check 5 different portals daily. Now it's all in one beautiful dashboard." },
+                  { name: "David Chen", role: "Operations Manager, Lumina", text: "The predictive alerts have saved us thousands in potential refund claims. It flags delayed shipments before the customer even notices." },
+                  { name: "Elena Rodriguez", role: "Supply Chain Lead, AutoParts Co", text: "Finally, a tracking tool that doesn't look like it was built in 2005. The UI is stunning and the carrier integrations are flawless." },
+                  { name: "Michael Chang", role: "E-commerce Founder, Nova", text: "Integration took exactly 5 minutes. The API is robust and the webhook events trigger instantly. Best decision we've made this year." },
+                  { name: "Rachel Adams", role: "Fulfillment Specialist, Zenith", text: "The cross-carrier unified view is a total game-changer for our team. I can search across FedEx and DHL simultaneously without thinking." },
+                  { name: "Tom Hollander", role: "Warehouse Manager, Prime", text: "No more juggling 6 different tracking portals. Flawless execution. The visualization helps us spot delays instantly." },
+                ].map((review, i) => (
+                  <div 
+                    key={i}
+                    className="w-[350px] shrink-0 bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all flex flex-col group cursor-default"
                   >
-                    <div className="mt-1">
-                      {item.status === 'delivered' ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : 
-                       item.status === 'failed' ? <AlertCircle className="w-5 h-5 text-red-500" /> :
-                       <div className="w-3 h-3 m-1 rounded-full bg-indigo-500 animate-pulse" />}
+                    <div className="flex items-center gap-1 mb-6 group-hover:scale-105 origin-left transition-transform">
+                      {[...Array(5)].map((_, j) => <Star key={j} className="w-5 h-5 fill-amber-400 text-amber-400" />)}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-slate-900 truncate">
-                        {item.carrier} #{item.tracking}
-                      </p>
-                      <p className="text-[13px] font-medium text-slate-500 truncate">
-                        {item.description} to {item.recipient} in {item.location}
-                      </p>
+                    <p className="text-slate-700 font-medium leading-relaxed mb-8 flex-1">"{review.text}"</p>
+                    <div className="flex items-center gap-4 mt-auto">
+                      <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-lg shrink-0">
+                        {review.name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="font-bold text-slate-900">{review.name}</p>
+                        <p className="text-sm font-medium text-slate-500">{review.role}</p>
+                      </div>
                     </div>
-                    <span className="text-[11px] font-bold text-slate-400 whitespace-nowrap">Just now</span>
-                  </motion.div>
+                  </div>
                 ))}
-              </AnimatePresence>
+              </motion.div>
             </div>
           </div>
         </section>

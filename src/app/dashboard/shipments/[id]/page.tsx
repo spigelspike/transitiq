@@ -148,12 +148,12 @@ export default function ShipmentDetailPage() {
         {/* Route Steps */}
         <div className="flex items-center justify-between relative">
           {routeSteps.map((step, i) => (
-            <div key={step.label} className="flex flex-col items-center text-center relative z-10 flex-1">
+            <div key={step.label} className="flex flex-col items-center text-center relative z-10 flex-1 min-w-0 px-1">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 ${step.done ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-400"}`}>
                 {step.done ? <CheckCircle2 className="w-4 h-4" /> : <span className="text-xs font-bold">{i + 1}</span>}
               </div>
-              <p className={`text-xs font-bold ${step.done ? "text-slate-900" : "text-slate-400"}`}>{step.label}</p>
-              <p className="text-[10px] text-slate-400 mt-0.5">{step.location}</p>
+              <p className={`text-[10px] sm:text-xs font-bold ${step.done ? "text-slate-900" : "text-slate-400"}`}>{step.label}</p>
+              <p className="text-[10px] text-slate-400 mt-0.5 hidden md:block truncate w-full px-2">{step.location}</p>
             </div>
           ))}
           {/* Connector line */}

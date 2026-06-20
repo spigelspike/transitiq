@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { mockShipments, getCarrierPerformance } from "@/lib/mock-data";
 import { Truck, TrendingUp, TrendingDown, Clock, CheckCircle2, XCircle, Package, ArrowRight, Star } from "lucide-react";
 
@@ -13,6 +14,7 @@ const CARRIER_COLORS: Record<string, { bg: string; text: string; accent: string;
 };
 
 export default function CarriersPage() {
+  const router = useRouter();
   const carrierData = useMemo(() => getCarrierPerformance(mockShipments), []);
 
   // Calculate additional stats per carrier
@@ -76,7 +78,11 @@ export default function CarriersPage() {
         {carrierDetails.map((c) => {
           const colors = CARRIER_COLORS[c.carrier];
           return (
-            <div key={c.carrier} className={`bg-white border ${colors.border} rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow`}>
+            <div 
+              key={c.carrier} 
+              onClick={() => router.push(`/dashboard/carriers/${c.carrier}`)}
+              className={`bg-white border ${colors.border} rounded-2xl shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer`}
+            >
               {/* Card Header */}
               <div className={`${colors.bg} px-6 py-4 flex items-center justify-between`}>
                 <div className="flex items-center gap-3">

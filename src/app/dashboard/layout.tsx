@@ -13,7 +13,9 @@ import {
   Bell, 
   Search,
   Hexagon,
-  LogOut
+  LogOut,
+  MessageSquareWarning,
+  MessageSquare
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -33,6 +35,8 @@ const NAV_ITEMS = [
   { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
   { label: "Carriers", href: "/dashboard/carriers", icon: Truck },
   { label: "Alerts", href: "/dashboard/alerts", icon: Bell },
+  { label: "Complaints", href: "/dashboard/complaints", icon: MessageSquareWarning },
+  { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
@@ -171,14 +175,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
 
       {/* ── MOBILE BOTTOM FLOATING DOCK ───────────────────────────── */}
-      <div className="md:hidden fixed bottom-6 left-0 right-0 z-50 px-4 flex justify-center pb-safe">
+      <div className="md:hidden fixed bottom-6 left-0 right-0 z-50 px-4 flex justify-center pb-safe pointer-events-none">
         <motion.div 
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="bg-white/90 backdrop-blur-xl rounded-[2rem] p-2 flex items-center gap-1 shadow-2xl border border-slate-200/50"
+          className="bg-white/90 backdrop-blur-xl rounded-[2rem] p-2 flex items-center gap-1 shadow-2xl border border-slate-200/50 max-w-full overflow-x-auto pointer-events-auto snap-x snap-mandatory"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {NAV_ITEMS.slice(0, 4).map((item) => {
+          {NAV_ITEMS.map((item) => {
             const isActive = item.href === "/dashboard"
               ? pathname === "/dashboard"
               : pathname.startsWith(item.href);
@@ -186,7 +191,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Link 
                 key={item.href} 
                 href={item.href} 
-                className={`relative flex flex-col items-center justify-center w-16 h-12 rounded-2xl transition-all ${
+                className={`relative flex flex-col items-center justify-center w-16 h-12 rounded-2xl shrink-0 snap-center transition-all ${
                   isActive ? "text-blue-700 bg-blue-50" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
                 }`}
               >

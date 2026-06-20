@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { User, Bell, Shield, Palette, Save, CheckCircle2, Moon, Sun, Monitor } from "lucide-react";
+import { User, Bell, Shield, Palette, Save, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function SettingsPage() {
@@ -20,7 +20,6 @@ export default function SettingsPage() {
     pushFailed: true,
     pushDelayed: true,
   });
-  const [theme, setTheme] = useState("light");
 
   const handleSave = () => {
     toast.success("Settings saved successfully!", { icon: <CheckCircle2 className="w-4 h-4" /> });
@@ -211,29 +210,7 @@ export default function SettingsPage() {
         </div>
 
         <div className="p-6 space-y-6">
-          <div>
-            <h4 className="text-sm font-bold text-slate-700 mb-3">Theme</h4>
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { id: "light", label: "Light", icon: Sun },
-                { id: "dark", label: "Dark", icon: Moon },
-                { id: "system", label: "System", icon: Monitor },
-              ].map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setTheme(t.id)}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
-                    theme === t.id
-                      ? "border-indigo-500 bg-indigo-50"
-                      : "border-slate-200 bg-white hover:border-slate-300"
-                  }`}
-                >
-                  <t.icon className={`w-6 h-6 ${theme === t.id ? "text-indigo-600" : "text-slate-400"}`} />
-                  <span className={`text-sm font-bold ${theme === t.id ? "text-indigo-700" : "text-slate-600"}`}>{t.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+
 
           <div>
             <h4 className="text-sm font-bold text-slate-700 mb-3">Dashboard Density</h4>
