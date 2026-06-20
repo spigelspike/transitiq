@@ -3,6 +3,7 @@ import ShipmentHealth from "@/components/dashboard/ShipmentHealth";
 import AIInsightsCard from "@/components/dashboard/AIInsightsCard";
 import RecentActivityFeed from "@/components/dashboard/RecentActivityFeed";
 import ShipmentsTable from "@/components/dashboard/ShipmentsTable";
+import GlobalSearch from "@/components/dashboard/GlobalSearch";
 import { Search } from "lucide-react";
 
 export default function DashboardPage() {
@@ -18,15 +19,7 @@ export default function DashboardPage() {
         </div>
         
         {/* Global Search Input */}
-        <div className="relative w-full md:w-80">
-          <input 
-            id="shipment-search"
-            type="text" 
-            placeholder="Search tracking number..." 
-            className="w-full h-10 pl-10 pr-4 rounded-xl border border-slate-200/60 bg-white shadow-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 text-sm font-medium transition-shadow"
-          />
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-        </div>
+        <GlobalSearch />
       </div>
 
       {/* Row 1: Shipment Health */}

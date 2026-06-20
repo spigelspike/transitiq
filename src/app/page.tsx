@@ -68,12 +68,17 @@ export default function LandingPage() {
     return () => clearInterval(interval);
   }, []);
 
+  const executeSearch = (query: string) => {
+    if (!query.trim()) return;
+    setHasSearched(true);
+    const normalizedQuery = query.trim().toLowerCase();
+    const found = mockShipments.find(s => s.trackingNumber.toLowerCase() === normalizedQuery);
+    setSearchResult(found || null);
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!trackingNumber.trim()) return;
-    setHasSearched(true);
-    const found = mockShipments.find(s => s.trackingNumber.toLowerCase() === trackingNumber.toLowerCase());
-    setSearchResult(found || null);
+    executeSearch(trackingNumber);
   };
 
   const statusColors = {
@@ -192,7 +197,15 @@ export default function LandingPage() {
               <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-medium text-slate-400">
                 <span>Try:</span>
                 {mockShipments.slice(0, 3).map(s => (
-                  <button key={s.id} onClick={() => setTrackingNumber(s.trackingNumber)} className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-600 hover:border-indigo-300 hover:text-indigo-600 transition-colors">
+                  <button 
+                    key={s.id} 
+                    type="button"
+                    onClick={() => {
+                      setTrackingNumber(s.trackingNumber);
+                      executeSearch(s.trackingNumber);
+                    }} 
+                    className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-600 hover:border-indigo-300 hover:text-indigo-600 transition-colors"
+                  >
                     {s.trackingNumber}
                   </button>
                 ))}
