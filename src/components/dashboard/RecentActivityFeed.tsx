@@ -132,7 +132,7 @@ export default function RecentActivityFeed() {
                     {formatLocation(activity.location)}
                   </span>
                   <span className="text-[13px] font-medium text-slate-400 w-14 text-right">
-                    {getRelativeTime(activity.createdAt)}
+                    {getRelativeTime(activity.timestamp)}
                   </span>
                 </div>
               </div>
