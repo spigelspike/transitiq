@@ -1,0 +1,129 @@
+"use client";
+
+import React from "react";
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { Info, ArrowUpRight, Truck } from "lucide-react";
+
+const trendData = [
+  { date: "May 12", value: 89 },
+  { date: "May 13", value: 90 },
+  { date: "May 14", value: 93 },
+  { date: "May 15", value: 92 },
+  { date: "May 16", value: 96 },
+  { date: "May 17", value: 95 },
+  { date: "May 18", value: 98 },
+];
+
+const pieData = [
+  { name: "Delivered", value: 48, color: "#1D4ED8" }, // Blue-700
+  { name: "In Transit", value: 10, color: "#60A5FA" }, // Blue-400
+  { name: "Exceptions", value: 2, color: "#EF4444" }, // Red-500
+];
+
+export default function ShipmentHealth() {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6 w-full">
+      {/* Header */}
+      <div className="flex items-center gap-1.5 mb-6">
+        <h3 className="font-bold text-slate-900">Shipment Health</h3>
+        <Info className="w-4 h-4 text-slate-400" />
+      </div>
+
+      <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+        {/* Left Stats */}
+        <div className="flex flex-col shrink-0 min-w-[140px]">
+          <span className="text-5xl font-bold text-blue-600 tracking-tight mb-1">96.7%</span>
+          <span className="text-sm font-medium text-slate-500 mb-6">On-time delivery</span>
+          
+          <div className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600">
+            <ArrowUpRight className="w-4 h-4" />
+            <span>2.4% <span className="text-slate-400 font-medium">vs last 7 days</span></span>
+          </div>
+        </div>
+
+        {/* Center Area Chart */}
+        <div className="flex-1 h-[140px] w-full min-w-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#2563EB" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis 
+                dataKey="date" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ fontSize: 11, fill: '#94A3B8' }} 
+                dy={10}
+              />
+              <YAxis 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ fontSize: 11, fill: '#94A3B8' }}
+                tickFormatter={(val) => `${val}%`}
+                domain={['auto', 'auto']}
+              />
+              <Tooltip 
+                contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                itemStyle={{ color: '#1E293B', fontWeight: 600 }}
+              />
+              <Area 
+                type="monotone" 
+                dataKey="value" 
+                stroke="#2563EB" 
+                strokeWidth={3}
+                fillOpacity={1} 
+                fill="url(#colorValue)" 
+                activeDot={{ r: 6, fill: "#2563EB", stroke: "#FFF", strokeWidth: 2 }}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Right Donut Chart & Legend */}
+        <div className="flex items-center gap-6 shrink-0 lg:w-[320px] justify-end">
+          {/* Donut */}
+          <div className="relative w-[120px] h-[120px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={42}
+                  outerRadius={60}
+                  stroke="none"
+                  paddingAngle={2}
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+            {/* Center Icon */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <Truck className="w-6 h-6 text-blue-600" />
+            </div>
+          </div>
+
+          {/* Legend */}
+          <div className="flex flex-col gap-3">
+            {pieData.map((item, i) => (
+              <div key={i} className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                  <span className="text-sm font-semibold text-slate-700">{item.name}</span>
+                </div>
+                <span className="text-sm font-bold text-slate-900">{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
