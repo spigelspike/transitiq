@@ -28,11 +28,11 @@ import {
 
 const NAV_ITEMS = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Shipments", href: "/dashboard#shipments", icon: Package },
-  { label: "Tracking", href: "/dashboard#tracking", icon: Hexagon },
+  { label: "Shipments", href: "/dashboard/shipments", icon: Package },
+  { label: "Tracking", href: "/dashboard/tracking", icon: Hexagon },
   { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-  { label: "Carriers", href: "/dashboard#carriers", icon: Truck },
-  { label: "Alerts", href: "/dashboard#alerts", icon: Bell },
+  { label: "Carriers", href: "/dashboard/carriers", icon: Truck },
+  { label: "Alerts", href: "/dashboard/alerts", icon: Bell },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
@@ -51,7 +51,9 @@ function SidebarContent() {
       {/* Nav Links */}
       <div className="flex-1 overflow-y-auto px-4 flex flex-col gap-1.5">
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || (pathname === "/dashboard" && item.href === "/dashboard");
+          const isActive = item.href === "/dashboard"
+            ? pathname === "/dashboard"
+            : pathname.startsWith(item.href);
           return (
             <Link
               key={item.href}
@@ -177,7 +179,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           className="bg-white/90 backdrop-blur-xl rounded-[2rem] p-2 flex items-center gap-1 shadow-2xl border border-slate-200/50"
         >
           {NAV_ITEMS.slice(0, 4).map((item) => {
-            const isActive = pathname === item.href || (pathname === "/dashboard" && item.href === "/dashboard");
+            const isActive = item.href === "/dashboard"
+              ? pathname === "/dashboard"
+              : pathname.startsWith(item.href);
             return (
               <Link 
                 key={item.href} 
