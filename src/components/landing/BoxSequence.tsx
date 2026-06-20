@@ -25,10 +25,12 @@ export default function BoxSequence() {
       const img = new Image();
       const paddedIndex = i.toString().padStart(3, "0");
       img.src = `${FRAME_PREFIX}${paddedIndex}${FRAME_SUFFIX}`;
-      img.onload = () => {
+      const handleLoad = () => {
         loaded++;
         setLoadedCount(loaded);
       };
+      img.onload = handleLoad;
+      img.onerror = handleLoad;
       loadedImages.push(img);
     }
     setImages(loadedImages);
