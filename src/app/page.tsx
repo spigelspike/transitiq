@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView, Variants } from "framer-motion";
 import { Search, Package, Truck, LayoutDashboard, Sparkles, BarChart3, Users2, CheckCircle2, AlertCircle, ArrowRight, Star } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
 import BoxSequence from "@/components/landing/BoxSequence";
@@ -61,7 +61,7 @@ export default function LandingPage() {
     returned: "bg-orange-100 text-orange-700",
   };
 
-  const fadeUpVariant = {
+  const fadeUpVariant: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
   };
@@ -270,7 +270,7 @@ export default function LandingPage() {
                   className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300 group"
                 >
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${f.color}`}>
-                    {React.cloneElement(f.icon as React.ReactElement, { className: "w-6 h-6" })}
+                    {React.cloneElement(f.icon as React.ReactElement<{ className?: string }>, { className: "w-6 h-6" })}
                   </div>
                   <h4 className="text-lg font-bold text-slate-900 mb-2">{f.title}</h4>
                   <p className="text-sm font-medium text-slate-500 leading-relaxed">{f.desc}</p>
