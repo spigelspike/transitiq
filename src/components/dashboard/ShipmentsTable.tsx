@@ -116,7 +116,7 @@ const ShipmentRow = React.memo(({ shipment, onCopy, onClick }: { shipment: Shipm
             <span className={`text-sm font-bold ${isOverdue ? "text-red-600" : "text-slate-700"}`}>
               {format(estDate, "MMM d, yyyy")}
             </span>
-            {isOverdue && <AlertCircle className="w-4 h-4 text-red-500" title="Overdue" />}
+            {isOverdue && <span title="Overdue"><AlertCircle className="w-4 h-4 text-red-500" /></span>}
           </div>
         )}
       </TableCell>
