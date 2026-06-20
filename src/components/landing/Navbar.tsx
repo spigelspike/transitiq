@@ -33,14 +33,7 @@ export default function Navbar() {
         <div className="container mx-auto px-6 max-w-6xl flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-md"
-              style={{ background: "linear-gradient(135deg, #4F46E5, #8B5CF6)" }}
-            >
-              <Package className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-xl font-bold text-slate-900 tracking-tight">
-              Transit<span style={{ color: "#4F46E5" }}>IQ</span>
-            </span>
+            <img src="/logo.png" alt="TransitIQ Logo" className="h-8 w-auto" />
           </Link>
 
           {/* Links */}
@@ -69,14 +62,7 @@ export default function Navbar() {
       {/* ── MOBILE TOP HEADER (Just Logo & Sign In) ──────────────── */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100 p-4 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md flex items-center justify-center shadow-md"
-            style={{ background: "linear-gradient(135deg, #4F46E5, #8B5CF6)" }}
-          >
-            <Package className="w-3.5 h-3.5 text-white" />
-          </div>
-          <span className="text-lg font-bold text-slate-900 tracking-tight">
-            Transit<span style={{ color: "#4F46E5" }}>IQ</span>
-          </span>
+          <img src="/logo.png" alt="TransitIQ Logo" className="h-6 w-auto" />
         </Link>
         <Link href="/sign-in" className="text-sm font-bold text-[#4F46E5]">
           Log in

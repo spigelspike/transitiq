@@ -44,8 +44,7 @@ function SidebarContent() {
       {/* Logo */}
       <div className="h-20 flex items-center px-6 shrink-0">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold text-blue-600 tracking-tighter">T&rarr;</span>
-          <span className="text-xl font-bold text-slate-900 tracking-tight">TransitIQ</span>
+          <img src="/logo.png" alt="TransitIQ Logo" className="h-8 w-auto" />
         </Link>
       </div>
 
@@ -150,8 +149,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Mobile Header (replaces the desktop header which is now embedded in page.tsx) */}
         <header className="md:hidden h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 sticky top-0 z-40 shadow-sm">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <span className="text-lg font-bold text-blue-600 tracking-tighter">T&rarr;</span>
-            <span className="text-lg font-bold text-slate-900 tracking-tight">TransitIQ</span>
+            <img src="/logo.png" alt="TransitIQ Logo" className="h-6 w-auto" />
           </Link>
           <div className="flex items-center gap-3">
             <button className="relative p-1.5 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">

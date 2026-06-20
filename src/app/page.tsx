@@ -377,10 +377,7 @@ export default function LandingPage() {
       <footer className="bg-slate-50 border-t border-slate-200 py-12 pb-24 md:pb-12">
         <div className="container mx-auto px-6 max-w-6xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
-            <Package className="w-5 h-5 text-indigo-600" />
-            <span className="text-lg font-bold text-slate-900 tracking-tight">
-              Transit<span style={{ color: "#4F46E5" }}>IQ</span>
-            </span>
+            <img src="/logo.png" alt="TransitIQ Logo" className="h-6 w-auto" />
           </div>
           <p className="text-sm font-semibold text-slate-400">
             © {new Date().getFullYear()} TransitIQ. All rights reserved.

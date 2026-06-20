@@ -30,14 +30,7 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, #4F46E5, #8B5CF6)" }}
-            >
-              <Package className="w-3.5 h-3.5 text-white" />
-            </div>
-            <span className="text-base font-bold text-slate-900 tracking-tight">
-              Transit<span style={{ color: "#4F46E5" }}>IQ</span>
-            </span>
+            <img src="/logo.png" alt="TransitIQ Logo" className="h-6 w-auto" />
           </Link>
           <div className="w-5" /> {/* Spacer */}
         </div>
