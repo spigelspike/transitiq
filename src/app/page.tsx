@@ -68,8 +68,9 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 selection:bg-indigo-500/20 flex flex-col relative pb-20 md:pb-0">
-      <Navbar />
-
+      <div className="hidden md:block">
+        <Navbar />
+      </div>
       <main className="flex-grow pt-24 md:pt-0">
         {/* ── SECTION 1: HERO ──────────────────────────────────────── */}
         <section className="relative pt-12 pb-20 md:pt-40 md:pb-32 overflow-hidden flex flex-col items-center justify-center min-h-[90vh]">
