@@ -53,13 +53,13 @@ const getCarrierColor = (carrier: string) => {
   }
 };
 
-const ShipmentRow = React.memo(({ shipment, onCopy }: { shipment: Shipment; onCopy: (e: React.MouseEvent, text: string) => void }) => {
+const ShipmentRow = React.memo(({ shipment, onCopy, onClick }: { shipment: Shipment; onCopy: (e: React.MouseEvent, text: string) => void; onClick: () => void }) => {
   const s = getStatusBadge(shipment.status);
   const estDate = new Date(shipment.estimatedDelivery);
   const isOverdue = shipment.status !== "delivered" && shipment.status !== "returned" && isPast(estDate) && !isToday(estDate);
   
   return (
-    <TableRow className="group cursor-pointer hover:bg-slate-50 border-b-slate-50 transition-colors">
+    <TableRow className="group cursor-pointer hover:bg-slate-50 border-b-slate-50 transition-colors" onClick={onClick}>
       <TableCell>
         <div className="flex items-center gap-2">
           <span className="font-mono text-sm font-semibold text-slate-700">
@@ -464,7 +464,7 @@ export default function ShipmentsTable() {
             </TableHeader>
             <TableBody>
               {shipments.map((shipment) => (
-                <ShipmentRow key={shipment.id} shipment={shipment} onCopy={handleCopy} />
+                <ShipmentRow key={shipment.id} shipment={shipment} onCopy={handleCopy} onClick={() => router.push(`/dashboard/shipments/${shipment.id}`)} />
               ))}
             </TableBody>
           </Table>
