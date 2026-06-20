@@ -77,17 +77,17 @@ export default function LandingPage() {
           <div className="absolute inset-0 dot-grid z-0"></div>
           {/* Radial fade to solid slate-50 at edges */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(248,250,252,1)_70%)] z-0 pointer-events-none"></div>
-          
+
           <div className="container relative z-10 mx-auto px-6 max-w-5xl flex flex-col items-center text-center">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-8"
             >
-              <span className="text-sm">🚀</span> Now supporting BlueDart
+              <span className="text-sm"></span> Now supporting BlueDart
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
               className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-4"
             >
@@ -97,14 +97,14 @@ export default function LandingPage() {
               </span>
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
               className="text-lg md:text-xl text-slate-500 max-w-2xl mb-10 font-medium"
             >
               TransitIQ gives logistics teams real-time visibility across every carrier, shipment, and delivery — in one intelligent dashboard.
             </motion.p>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
               className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center"
             >
@@ -120,17 +120,17 @@ export default function LandingPage() {
             </motion.div>
 
             {/* Tracking Search Component */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
               className="mt-16 w-full max-w-xl"
             >
               <form onSubmit={handleSearch} className="relative flex items-center">
                 <Search className="absolute left-4 w-5 h-5 text-slate-400" />
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={trackingNumber}
                   onChange={(e) => setTrackingNumber(e.target.value)}
-                  placeholder="Enter any tracking number..." 
+                  placeholder="Enter any tracking number..."
                   className="w-full h-14 pl-12 pr-32 rounded-2xl border border-slate-200 bg-white shadow-lg shadow-slate-200/50 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 font-medium text-slate-900 placeholder:text-slate-400 transition-all"
                 />
                 <button type="submit" className="absolute right-2 h-10 px-5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl transition-colors">
@@ -169,13 +169,13 @@ export default function LandingPage() {
               <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs font-medium text-slate-400">
                 <span>Try:</span>
                 {mockShipments.slice(0, 3).map(s => (
-                  <button 
-                    key={s.id} 
+                  <button
+                    key={s.id}
                     type="button"
                     onClick={() => {
                       setTrackingNumber(s.trackingNumber);
                       executeSearch(s.trackingNumber);
-                    }} 
+                    }}
                     className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-600 hover:border-indigo-300 hover:text-indigo-600 transition-colors"
                   >
                     {s.trackingNumber}
@@ -234,7 +234,7 @@ export default function LandingPage() {
                 { value: 150, label: "Countries covered", suffix: "+", color: "text-cyan-600" },
                 { value: 30, label: "Average refresh rate", prefix: "< ", suffix: "s", color: "text-indigo-600" }
               ].map((stat, i) => (
-                <motion.div 
+                <motion.div
                   key={i} variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
                   className="bg-white border border-slate-200 rounded-3xl p-6 text-center shadow-lg shadow-slate-200/30"
                 >
@@ -265,7 +265,7 @@ export default function LandingPage() {
                 { icon: <BarChart3 />, title: "Carrier analytics", desc: "Compare carrier performance, SLAs, and on-time rates.", color: "text-violet-600 bg-violet-50" },
                 { icon: <Users2 />, title: "Team workspace", desc: "Role-based access so every team member sees what matters.", color: "text-cyan-600 bg-cyan-50" }
               ].map((f, i) => (
-                <motion.div 
+                <motion.div
                   key={i} variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
                   className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300 group"
                 >
@@ -285,13 +285,13 @@ export default function LandingPage() {
           <div className="container relative z-10 mx-auto px-6 max-w-6xl text-center">
             <motion.h2 variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Loved by logistics teams</motion.h2>
             <motion.p variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-lg text-slate-500 font-medium mb-16 max-w-2xl mx-auto">See how top companies are using TransitIQ to streamline their supply chain and improve delivery times.</motion.p>
-            
+
             <div className="relative w-full overflow-hidden flex py-10 mt-8">
               {/* Fade Gradients for Marquee edges */}
               <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
               <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
-              
-              <motion.div 
+
+              <motion.div
                 className="flex gap-6 pr-6 w-max text-left"
                 animate={{ x: ["0%", "-50%"] }}
                 transition={{ ease: "linear", duration: 45, repeat: Infinity }}
@@ -311,7 +311,7 @@ export default function LandingPage() {
                   { name: "Rachel Adams", role: "Fulfillment Specialist, Zenith", text: "The cross-carrier unified view is a total game-changer for our team. I can search across FedEx and DHL simultaneously without thinking." },
                   { name: "Tom Hollander", role: "Warehouse Manager, Prime", text: "No more juggling 6 different tracking portals. Flawless execution. The visualization helps us spot delays instantly." },
                 ].map((review, i) => (
-                  <div 
+                  <div
                     key={i}
                     className="w-[350px] shrink-0 bg-white border border-slate-200 rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all flex flex-col group cursor-default"
                   >
@@ -338,12 +338,12 @@ export default function LandingPage() {
         {/* ── SECTION 6: CTA ────────────────────────────────────────────── */}
         <section className="py-24 bg-white relative overflow-hidden">
           <div className="container relative z-10 mx-auto px-6 max-w-5xl">
-            <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} 
+            <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
               className="bg-indigo-900 rounded-[3rem] p-10 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-indigo-900/30"
             >
               <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(79,70,229,0.8),rgba(139,92,246,0.8))] z-0"></div>
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 z-0 mix-blend-overlay"></div>
-              
+
               <div className="relative z-10">
                 <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">Ready to unify your logistics operations?</h2>
                 <p className="text-lg md:text-xl text-indigo-100 font-medium mb-10 max-w-2xl mx-auto">Set up in minutes. No integration required. Start tracking immediately.</p>
