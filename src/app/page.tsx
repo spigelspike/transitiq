@@ -87,15 +87,12 @@ export default function LandingPage() {
               <span className="text-sm"></span> Now supporting BlueDart
             </motion.div>
 
-            <motion.h1
+            <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-              className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-4"
+              className="mb-6 flex justify-center"
             >
-              Ship smarter.<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-500 to-cyan-500">
-                Deliver better.
-              </span>
-            </motion.h1>
+              <img src="/logo.png" alt="TransitIQ Logo" className="h-20 md:h-28 w-auto object-contain" />
+            </motion.div>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
