@@ -37,7 +37,7 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
 
         {/* Form area */}
         <div className="flex-1 flex flex-col p-4 lg:py-4 lg:pr-20 xl:pr-32 lg:w-[50%]">
-          <div className="w-full max-w-[400px] bg-white rounded-3xl lg:rounded-[1.5rem] shadow-xl lg:shadow-2xl p-5 lg:px-8 lg:py-6 m-auto">
+          <div className="w-full max-w-[400px] bg-white rounded-3xl lg:rounded-[1.5rem] shadow-xl lg:shadow-2xl p-5 lg:px-8 lg:py-6 m-auto lg:mr-0 lg:ml-auto lg:my-auto">
             <div className="mb-4 hidden lg:block">
               <h1 className="text-2xl font-extrabold text-slate-900 mb-0.5 tracking-tight">{title}</h1>
               <p className="text-slate-500 text-[13px] font-medium">{subtitle}</p>

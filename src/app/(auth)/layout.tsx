@@ -51,7 +51,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-0 w-full h-full object-contain object-top"
+              className="absolute inset-0 w-full h-full object-cover object-center"
             />
           </AnimatePresence>
 
@@ -104,7 +104,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="w-full px-6 pb-12 mx-auto max-w-sm"
+            className="w-full px-6 pb-20 mx-auto max-w-sm"
           >
             {/* CTA buttons */}
             <Button

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useInView, Variants } from "framer-motion";
-import { Search, Package, Truck, LayoutDashboard, Sparkles, BarChart3, Users2, CheckCircle2, AlertCircle, ArrowRight, Star } from "lucide-react";
+import { Search, Package, Truck, LayoutDashboard, Sparkles, BarChart3, Users2, CheckCircle2, AlertCircle, ArrowRight, Star, MapPin, Calendar, Navigation, Copy, ShieldCheck, Bell, Check, CalendarDays } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
 import BoxSequence from "@/components/landing/BoxSequence";
 import { mockShipments } from "@/lib/mock-data";
@@ -33,6 +33,17 @@ function Counter({ from, to, duration = 2 }: { from: number; to: number; duratio
 
   return <span ref={nodeRef}>{count}</span>;
 }
+
+const getCarrierLogo = (name: string) => {
+  const map: Record<string, string> = {
+    'UPS': '/logos/ups.svg',
+    'FedEx': '/logos/fedex.svg',
+    'DHL': '/logos/dhl.svg',
+    'USPS': '/logos/usps.svg',
+    'BlueDart': '/logos/bluedart.png'
+  };
+  return map[name] || '/box.png';
+};
 
 export default function LandingPage() {
   const [trackingNumber, setTrackingNumber] = useState("");
@@ -122,7 +133,7 @@ export default function LandingPage() {
                         visible: { opacity: 1, x: 0, filter: "blur(0px)" }
                       }}
                       transition={{ duration: 0.3 }}
-                      className={isIQ ? "text-indigo-600" : ""}
+                      className={isIQ ? "text-[#3777fe]" : ""}
                     >
                       {char}
                     </motion.span>
@@ -175,22 +186,98 @@ export default function LandingPage() {
               {hasSearched && (
                 <div className="mt-4 text-left">
                   {searchResult ? (
-                    <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xl shadow-slate-200/50">
-                      <div className="flex justify-between items-start mb-3">
-                        <span className="font-mono text-lg font-bold text-slate-900 tracking-tight">{searchResult.trackingNumber}</span>
-                        <span className={`px-2.5 py-1 text-xs font-bold uppercase rounded-md ${statusColors[searchResult.status]}`}>
-                          {searchResult.status.replace(/_/g, " ")}
-                        </span>
+                    <div className="bg-white border border-slate-200 rounded-[2rem] p-6 md:p-8 shadow-xl shadow-slate-200/50 w-full max-w-4xl mx-auto mt-6 text-left relative z-20">
+                      
+                      {/* HEADER */}
+                      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-14 h-14 bg-white border border-slate-100 shadow-sm rounded-xl flex items-center justify-center p-2.5 shrink-0">
+                            <img src={getCarrierLogo(searchResult.carrier.name)} className="max-w-full max-h-full object-contain" alt={searchResult.carrier.name} />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-3 mb-1">
+                              <h3 className="text-xl font-bold text-slate-900 tracking-tight">{searchResult.carrier.name} Ground</h3>
+                              <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest rounded-md ${statusColors[searchResult.status]}`}>
+                                {searchResult.status.replace(/_/g, " ")}
+                              </span>
+                            </div>
+                            <p className="text-sm text-slate-500 font-medium">To {searchResult.recipient}</p>
+                          </div>
+                        </div>
+                        <div className="text-left md:text-right">
+                          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 flex items-center md:justify-end gap-1">Tracking ID</div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-xl font-black text-slate-900 tracking-tight">{searchResult.trackingNumber}</span>
+                            <button className="text-slate-400 hover:text-indigo-600 transition-colors p-1"><Copy className="w-4 h-4" /></button>
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-sm text-slate-500 font-medium mb-4">
-                        {searchResult.carrier.name} · To {searchResult.recipient}
-                      </p>
-                      <div className="w-full bg-slate-100 rounded-full h-2 mb-2">
-                        <div className="bg-indigo-600 h-2 rounded-full" style={{ width: searchResult.status === "delivered" ? "100%" : "60%" }}></div>
+
+                      {/* MAIN STATUS BLOCK */}
+                      <div className="border border-slate-100 rounded-[1.5rem] p-6 md:p-8 mb-5 shadow-sm bg-white">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+                          <div className="flex items-center gap-5">
+                            <div className="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
+                              <Truck className="w-8 h-8 text-indigo-600" />
+                            </div>
+                            <div>
+                              <h2 className="text-2xl font-bold text-indigo-600 capitalize mb-1 tracking-tight">{searchResult.status.replace(/_/g, " ")}</h2>
+                              <p className="text-slate-500 font-medium text-sm">Your package is on the way to <span className="text-indigo-600 font-bold">{searchResult.destination.city}, {searchResult.destination.state}</span></p>
+                            </div>
+                          </div>
+                          <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 min-w-[150px]">
+                            <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">ETA</div>
+                            <div className="flex items-center gap-2 font-black text-indigo-600 text-lg mb-1">
+                              <CalendarDays className="w-5 h-5" />
+                              {new Date(searchResult.estimatedDelivery).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                            </div>
+                            <div className="text-[11px] text-slate-400 font-medium">2 days remaining</div>
+                          </div>
+                        </div>
+
+                        {/* STEPPER */}
+                        <div className="relative pt-4 pb-2 px-2 md:px-8 max-w-3xl mx-auto hidden sm:block">
+                          {/* Line background */}
+                          <div className="absolute top-[26px] left-[10%] right-[10%] h-[3px] bg-slate-100 z-0"></div>
+                          {/* Line foreground (dynamic width) */}
+                          <div className="absolute top-[26px] left-[10%] h-[3px] bg-indigo-600 z-0 transition-all duration-1000" style={{ width: searchResult.status === 'delivered' ? '80%' : searchResult.status === 'out_for_delivery' ? '60%' : searchResult.status === 'in_transit' ? '40%' : searchResult.status === 'pending' ? '0%' : '100%' }}></div>
+                          
+                          <div className="flex justify-between relative z-10">
+                            {[
+                              { label: "Label Created", status: "completed", date: "Jun 24" },
+                              { label: "Dispatched", status: searchResult.status !== 'pending' ? "completed" : "upcoming", date: "Jun 25" },
+                              { label: "In Transit", status: searchResult.status === 'in_transit' ? 'current' : (searchResult.status === 'out_for_delivery' || searchResult.status === 'delivered' ? 'completed' : 'upcoming'), date: "Jun 26" },
+                              { label: "Out for Delivery", status: searchResult.status === 'out_for_delivery' ? 'current' : (searchResult.status === 'delivered' ? 'completed' : 'upcoming'), date: "Jun 29" },
+                              { label: "Delivered", status: searchResult.status === 'delivered' ? 'current' : 'upcoming', date: "Jun 29" },
+                            ].map((step, idx) => (
+                              <div key={idx} className="flex flex-col items-center w-24">
+                                <div className={`w-7 h-7 rounded-full flex items-center justify-center mb-3 ring-[6px] ring-white transition-colors duration-500 ${step.status === 'completed' ? 'bg-indigo-600 text-white' : step.status === 'current' ? 'bg-indigo-600 text-white' : 'bg-white text-slate-300 border-[3px] border-slate-200'}`}>
+                                  {step.status === 'completed' && <Check className="w-4 h-4 stroke-[3]" />}
+                                  {step.status === 'current' && <Truck className="w-3.5 h-3.5" />}
+                                </div>
+                                <div className={`text-[11px] font-bold text-center mb-1 transition-colors duration-500 ${step.status === 'current' ? 'text-indigo-600' : step.status === 'completed' ? 'text-slate-800' : 'text-slate-400'}`}>{step.label}</div>
+                                <div className="text-[10px] text-slate-400 font-medium">{step.date}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-xs font-bold text-slate-500">
-                        Est. delivery: {new Date(searchResult.estimatedDelivery).toLocaleDateString()}
-                      </p>
+
+
+                      {/* FOOTER ALERT */}
+                      <div className="bg-slate-50/80 border border-slate-100 rounded-[1.25rem] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+                        <div className="flex items-start md:items-center gap-4">
+                          <div className="text-blue-600 bg-blue-100 p-2 rounded-xl shrink-0"><ShieldCheck className="w-5 h-5" /></div>
+                          <div>
+                            <div className="font-bold text-slate-900 text-sm mb-0.5 tracking-tight">Shipment is safe</div>
+                            <div className="text-slate-500 text-xs font-medium">We'll notify you when your package is out for delivery.</div>
+                          </div>
+                        </div>
+                        <button className="flex items-center gap-2 bg-white border border-slate-200 text-indigo-600 font-bold text-xs px-5 py-3 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 transition-colors shrink-0 shadow-sm">
+                          <Bell className="w-4 h-4" /> Get Notifications
+                        </button>
+                      </div>
+
                     </div>
                   ) : (
                     <p className="text-red-500 text-sm font-bold bg-red-50 py-2 px-4 rounded-lg border border-red-100 text-center">
@@ -219,8 +306,8 @@ export default function LandingPage() {
             </motion.div>
           </div>
 
-          {/* Floating Logos (Mobile & Desktop) */}
-          <div className="absolute inset-0 pointer-events-none z-0 lg:z-10 max-w-[90rem] mx-auto overflow-hidden lg:overflow-visible opacity-40 lg:opacity-100">
+          {/* Floating Logos (Desktop Only) */}
+          <div className="hidden md:block absolute inset-0 pointer-events-none z-0 lg:z-10 max-w-[90rem] mx-auto overflow-hidden lg:overflow-visible opacity-100">
             {[
               { src: "/logos/fedex.svg", top: "45%", left: "12%", delay: 0, duration: 5, rotate: -5, w: "w-28" },
               { src: "/logos/ups.svg", top: "45%", right: "18%", delay: 1, duration: 6, rotate: 5, w: "w-16" },
@@ -282,34 +369,218 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ── SECTION 4: FEATURES ──────────────────────────────────────── */}
-        <section id="features" className="py-24 bg-white">
-          <div className="container mx-auto px-6 max-w-6xl">
+        {/* ── SECTION 4: FEATURES (BENTO UI) ─────────────────────────────────── */}
+        <section id="features" className="py-24 bg-white overflow-hidden">
+          <div className="container mx-auto px-6 max-w-[80rem]">
+            {/* Header */}
             <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Built for logistics teams that move fast</h2>
+              <div className="inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-[10px] font-bold uppercase tracking-wider mb-6">
+                <Users2 className="w-3.5 h-3.5" /> Built for logistics teams
+              </div>
+              <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Built for logistics teams that move fast</h2>
               <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto">Everything you need to monitor, analyze, and optimize your delivery network.</p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { icon: <Truck />, title: "Real-time tracking", desc: "Status updates every 30 seconds from all carrier APIs.", color: "text-indigo-600 bg-indigo-50" },
-                { icon: <Package />, title: "Multi-carrier unified", desc: "One dashboard for FedEx, UPS, DHL, USPS, and BlueDart.", color: "text-violet-600 bg-violet-50" },
-                { icon: <LayoutDashboard />, title: "Intelligent dashboard", desc: "Search, filter, sort — with URL-based state so views are shareable.", color: "text-cyan-600 bg-cyan-50" },
-                { icon: <Sparkles />, title: "AI delivery insights", desc: "Predictive alerts when a shipment may miss its delivery window.", color: "text-indigo-600 bg-indigo-50" },
-                { icon: <BarChart3 />, title: "Carrier analytics", desc: "Compare carrier performance, SLAs, and on-time rates.", color: "text-violet-600 bg-violet-50" },
-                { icon: <Users2 />, title: "Team workspace", desc: "Role-based access so every team member sees what matters.", color: "text-cyan-600 bg-cyan-50" }
-              ].map((f, i) => (
-                <motion.div
-                  key={i} variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
-                  className="p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300 group"
-                >
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${f.color}`}>
-                    {React.cloneElement(f.icon as React.ReactElement<{ className?: string }>, { className: "w-6 h-6" })}
+            {/* Bento Grid */}
+            <div className="flex flex-col gap-6">
+              
+              {/* Row 1: Real-Time Tracking (Spans Full Width) */}
+              <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
+                className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 md:p-12 flex flex-col lg:flex-row gap-12 overflow-hidden relative"
+              >
+                {/* Left side text */}
+                <div className="lg:w-1/3 flex flex-col justify-center z-10">
+                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-6 flex items-center gap-2">
+                    <Truck className="w-4 h-4" /> Real-time tracking
                   </div>
-                  <h4 className="text-lg font-bold text-slate-900 mb-2">{f.title}</h4>
-                  <p className="text-sm font-medium text-slate-500 leading-relaxed">{f.desc}</p>
+                  <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">Know every shipment at every moment</h3>
+                  <p className="text-slate-500 mb-8 text-base font-medium leading-relaxed">Get live status updates every 30 seconds from all your carriers in one place.</p>
+                  <ul className="space-y-4 mb-10">
+                    <li className="flex items-center gap-3 text-[15px] text-slate-700 font-bold">
+                      <CheckCircle2 className="w-5 h-5 text-indigo-500" /> 30s auto-updates
+                    </li>
+                    <li className="flex items-center gap-3 text-[15px] text-slate-700 font-bold">
+                      <CheckCircle2 className="w-5 h-5 text-indigo-500" /> Exception & delay alerts
+                    </li>
+                    <li className="flex items-center gap-3 text-[15px] text-slate-700 font-bold">
+                      <CheckCircle2 className="w-5 h-5 text-indigo-500" /> Delivery timeline view
+                    </li>
+                  </ul>
+                  <Link href="/dashboard" className="inline-flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors self-start">
+                    Explore tracking <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+
+                {/* Right side mock UI (Shipments table) */}
+                <div className="lg:w-2/3 bg-white border border-slate-100 rounded-2xl shadow-[0_0_40px_-10px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col text-sm z-10">
+                  <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-slate-50/50 gap-4">
+                    <div className="font-bold text-slate-900">Shipments</div>
+                    <div className="flex gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
+                       <div className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-400 text-xs flex items-center gap-2 whitespace-nowrap min-w-[200px]"><Search className="w-3 h-3"/> Search by tracking ID...</div>
+                       <div className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-600 text-xs font-medium whitespace-nowrap">All Carriers</div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-slate-100">
+                    <div className="p-4 border-r border-b sm:border-b-0 border-slate-100">
+                      <div className="text-[10px] text-slate-400 font-bold uppercase mb-1">Total Shipments</div>
+                      <div className="text-xl font-black text-slate-900 flex items-center gap-2">24,532 <span className="text-[10px] text-emerald-500 bg-emerald-50 px-1.5 py-0.5 rounded hidden xl:inline-block">↑ 12.5%</span></div>
+                    </div>
+                    <div className="p-4 border-r sm:border-r border-b sm:border-b-0 border-slate-100">
+                      <div className="text-[10px] text-slate-400 font-bold uppercase mb-1">In Transit</div>
+                      <div className="text-xl font-black text-slate-900 flex items-center gap-2">18,760 <span className="text-[10px] text-emerald-500 bg-emerald-50 px-1.5 py-0.5 rounded hidden xl:inline-block">↑ 8.2%</span></div>
+                    </div>
+                    <div className="p-4 border-r border-slate-100">
+                      <div className="text-[10px] text-slate-400 font-bold uppercase mb-1">Delivered</div>
+                      <div className="text-xl font-black text-slate-900 flex items-center gap-2">5,312 <span className="text-[10px] text-emerald-500 bg-emerald-50 px-1.5 py-0.5 rounded hidden xl:inline-block">↑ 15.1%</span></div>
+                    </div>
+                    <div className="p-4">
+                      <div className="text-[10px] text-slate-400 font-bold uppercase mb-1">Exceptions</div>
+                      <div className="text-xl font-black text-slate-900 flex items-center gap-2">460 <span className="text-[10px] text-red-500 bg-red-50 px-1.5 py-0.5 rounded hidden xl:inline-block">↑ 6.3%</span></div>
+                    </div>
+                  </div>
+                  <div className="p-0 overflow-x-auto">
+                    <table className="w-full text-left text-xs text-slate-600 min-w-[600px]">
+                      <thead className="bg-slate-50/50 text-slate-400 font-semibold border-b border-slate-100">
+                        <tr>
+                          <th className="px-5 py-3 font-medium">Tracking ID</th>
+                          <th className="px-5 py-3 font-medium">Carrier</th>
+                          <th className="px-5 py-3 font-medium">Status</th>
+                          <th className="px-5 py-3 font-medium">Delivery ETA</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 font-medium">
+                        <tr className="hover:bg-slate-50/50 transition-colors">
+                          <td className="px-5 py-3 font-mono">TRK784068843408</td>
+                          <td className="px-5 py-3"><img src="/logos/fedex.svg" className="h-3" alt="FedEx" /></td>
+                          <td className="px-5 py-3"><span className="text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase">In Transit</span></td>
+                          <td className="px-5 py-3 text-slate-900">May 22, 09:30 AM</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50/50 transition-colors">
+                          <td className="px-5 py-3 font-mono">1Z999AA10123456784</td>
+                          <td className="px-5 py-3"><img src="/logos/ups.svg" className="h-4" alt="UPS" /></td>
+                          <td className="px-5 py-3"><span className="text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase">Out for Delivery</span></td>
+                          <td className="px-5 py-3 text-slate-900">May 21, 02:15 PM</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50/50 transition-colors">
+                          <td className="px-5 py-3 font-mono">JD014600012345678901</td>
+                          <td className="px-5 py-3"><img src="/logos/dhl.svg" className="h-2.5" alt="DHL" /></td>
+                          <td className="px-5 py-3"><span className="text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase">In Transit</span></td>
+                          <td className="px-5 py-3 text-slate-900">May 23, 11:20 AM</td>
+                        </tr>
+                        <tr className="hover:bg-slate-50/50 transition-colors">
+                          <td className="px-5 py-3 font-mono">9400111206212345678901</td>
+                          <td className="px-5 py-3"><img src="/logos/usps.svg" className="h-2.5" alt="USPS" /></td>
+                          <td className="px-5 py-3"><span className="text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase">Delivered</span></td>
+                          <td className="px-5 py-3 text-slate-900">May 20, 12:45 PM</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Row 2: 4 Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                {/* Card 1: Carrier Analytics */}
+                <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                  className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 flex flex-col"
+                >
+                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
+                    <BarChart3 className="w-4 h-4" /> Carrier Analytics
+                  </div>
+                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">Compare.<br/>Analyze.<br/>Optimize.</h4>
+                  <p className="text-slate-500 mb-8 text-sm font-medium">Track SLA performance, on-time delivery, and cost efficiency across all your carriers.</p>
+                  
+                  <div className="mt-auto bg-slate-50 rounded-xl p-4 border border-slate-100 relative h-36 overflow-hidden flex flex-col justify-end group">
+                    <div className="absolute top-4 left-4">
+                      <div className="text-[10px] font-bold text-slate-400 uppercase">On-time Delivery</div>
+                      <div className="text-xl font-black text-slate-900 flex items-center gap-1">92.6% <span className="text-[10px] text-emerald-500 bg-emerald-50 px-1 py-0.5 rounded">↑ 8.7%</span></div>
+                    </div>
+                    <svg className="w-full h-16 stroke-indigo-500 stroke-2 fill-none group-hover:scale-[1.02] transition-transform duration-500" viewBox="0 0 100 30" preserveAspectRatio="none">
+                      <path d="M0,28 C20,25 30,28 50,15 C70,2 80,10 100,5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="25" cy="26" r="1.5" className="fill-indigo-500"/>
+                      <circle cx="50" cy="15" r="1.5" className="fill-indigo-500"/>
+                      <circle cx="75" cy="8" r="1.5" className="fill-indigo-500"/>
+                      <circle cx="100" cy="5" r="1.5" className="fill-indigo-500"/>
+                    </svg>
+                  </div>
                 </motion.div>
-              ))}
+
+                {/* Card 2: AI Insights */}
+                <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                  className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 flex flex-col"
+                >
+                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" /> AI Insights
+                  </div>
+                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">AI that spots issues early</h4>
+                  <p className="text-slate-500 mb-8 text-sm font-medium">Predict delays, flag exceptions, and get actionable recommendations with AI.</p>
+                  
+                  <div className="mt-auto bg-white border border-red-100 shadow-[0_4px_20px_-4px_rgba(239,68,68,0.1)] rounded-xl p-5 relative">
+                    <div className="flex items-start gap-3">
+                      <div className="bg-red-50 p-2 rounded-lg text-red-500 shrink-0"><AlertCircle className="w-4 h-4" /></div>
+                      <div>
+                        <div className="text-[10px] font-bold text-red-600 uppercase tracking-wider mb-1">High risk of delay</div>
+                        <div className="font-mono text-[11px] font-bold text-slate-900 mb-1.5">TRK784068843408</div>
+                        <p className="text-[11px] text-slate-500 leading-tight font-medium">Delivery delayed by 1-2 days due to weather conditions.</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Card 3: Team Workspace */}
+                <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                  className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 flex flex-col"
+                >
+                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
+                    <Users2 className="w-4 h-4" /> Team Workspace
+                  </div>
+                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">Collaborate with your team</h4>
+                  <p className="text-slate-500 mb-8 text-sm font-medium">Role-based access, shipment notes, and real-time updates keep everyone aligned.</p>
+                  
+                  <div className="mt-auto bg-slate-50 rounded-xl p-5 border border-slate-100 flex flex-col gap-4">
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Recent Activity</div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded-full bg-blue-100 text-[9px] flex items-center justify-center font-bold text-blue-700 shrink-0">SJ</div>
+                      <div className="text-[11px] font-semibold text-slate-700 truncate">Sarah updated a shipment</div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded-full bg-emerald-100 text-[9px] flex items-center justify-center font-bold text-emerald-700 shrink-0">DC</div>
+                      <div className="text-[11px] font-semibold text-slate-700 truncate">David added a note</div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded-full bg-violet-100 text-[9px] flex items-center justify-center font-bold text-violet-700 shrink-0">ER</div>
+                      <div className="text-[11px] font-semibold text-slate-700 truncate">Elena marked as delivered</div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Card 4: Multi-Carrier Unified */}
+                <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                  className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 flex flex-col"
+                >
+                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
+                    <Package className="w-4 h-4" /> Multi-Carrier Unified
+                  </div>
+                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">One API.<br/>All major carriers.</h4>
+                  <p className="text-slate-500 mb-8 text-sm font-medium">Connect with FedEx, UPS, DHL, USPS, BlueDart and more seamlessly.</p>
+                  
+                  <div className="mt-auto grid grid-cols-2 gap-3">
+                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/fedex.svg" className="h-3.5" alt="FedEx"/></div>
+                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/ups.svg" className="h-5" alt="UPS"/></div>
+                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/dhl.svg" className="h-3" alt="DHL"/></div>
+                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors text-[10px] font-bold text-slate-500 uppercase">+ More</div>
+                  </div>
+                </motion.div>
+
+              </div>
+              
+              {/* Trust Badge Footer */}
+              <div className="text-center mt-10 flex flex-wrap items-center justify-center gap-3 text-[13px] font-bold text-slate-400">
+                <CheckCircle2 className="w-4 h-4 text-slate-300" /> Enterprise-grade security <span className="hidden sm:inline">·</span> 99.9% uptime <span className="hidden sm:inline">·</span> Scalable for any volume
+              </div>
+
             </div>
           </div>
         </section>
