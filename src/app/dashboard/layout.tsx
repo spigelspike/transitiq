@@ -42,6 +42,7 @@ const NAV_ITEMS = [
 
 function SidebarContent() {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <div className="flex flex-col h-full bg-[#F8FAFC] text-slate-700">
@@ -98,15 +99,25 @@ function SidebarContent() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer font-medium text-slate-700">Profile</DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer font-medium text-slate-700">Settings</DropdownMenuItem>
+            <DropdownMenuItem 
+              className="cursor-pointer font-medium text-slate-700"
+              onClick={() => router.push("/dashboard/profile")}
+            >
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              className="cursor-pointer font-medium text-slate-700"
+              onClick={() => router.push("/dashboard/settings")}
+            >
+              Settings
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
               className="cursor-pointer font-medium text-red-600 hover:text-red-700 focus:text-red-700 flex items-center"
               onClick={() => {
                 toast.success("Signing out...", { duration: 1500 });
                 // Simulate redirect
-                setTimeout(() => window.location.href = "/login", 1000);
+                setTimeout(() => window.location.href = "/sign-in", 1000);
               }}
             >
               <LogOut className="w-4 h-4 mr-2" />
@@ -158,13 +169,52 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <img src="/logo.png" alt="TransitIQ Logo" className="h-6 w-auto" />
           </Link>
           <div className="flex items-center gap-3">
-            <button className="relative p-1.5 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+            <button 
+              onClick={() => router.push("/dashboard/alerts")}
+              className="relative p-1.5 text-slate-500 hover:bg-slate-100 rounded-full transition-colors"
+            >
               <Bell className="w-5 h-5" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white"></span>
             </button>
-            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-700">
-              AM
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="focus:outline-none">
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-700 hover:ring-2 ring-blue-100 transition-all">
+                  AM
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 mt-2 rounded-xl">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-bold text-slate-900 leading-none">Alex Morgan</p>
+                    <p className="text-xs text-slate-500 leading-none text-muted-foreground">alex@transitiq.com</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem 
+                  className="cursor-pointer font-medium text-slate-700"
+                  onClick={() => router.push("/dashboard/profile")}
+                >
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="cursor-pointer font-medium text-slate-700"
+                  onClick={() => router.push("/dashboard/settings")}
+                >
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem 
+                  className="cursor-pointer font-medium text-red-600 hover:text-red-700 focus:text-red-700 flex items-center"
+                  onClick={() => {
+                    toast.success("Signing out...", { duration: 1500 });
+                    setTimeout(() => window.location.href = "/sign-in", 1000);
+                  }}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </header>
 
