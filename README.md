@@ -18,6 +18,11 @@
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 ![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=black)
 
+### State & Validation
+![React Query](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
+![React Hook Form](https://img.shields.io/badge/React_Hook_Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white)
+![Zod](https://img.shields.io/badge/Zod-3068B7?style=for-the-badge&logo=zod&logoColor=white)
+
 ### UI & Data
 ![Lucide](https://img.shields.io/badge/Lucide_React-F56040?style=for-the-badge&logo=lucide&logoColor=white)
 ![Recharts](https://img.shields.io/badge/Recharts-22B5BF?style=for-the-badge&logo=chartdotjs&logoColor=white)
@@ -32,8 +37,9 @@ TransitIQ gives you a single view across multiple carriers. You can track shipme
 **Core features:**
 
 - **Landing page** — scroll-linked animations via GSAP and Framer Motion
-- **Dashboard** — collapsible sidebar on desktop, floating bottom dock on mobile
-- **Auth flow** — sign-in / sign-up screens with an onboarding carousel on mobile
+- **Dashboard** — collapsible sidebar on desktop, floating bottom dock on mobile, and Skeleton loading states powered by React Query.
+- **Auth flow** — sign-in / sign-up screens protected by strict Zod schema validation and React Hook Form.
+- **API Simulation** — custom Next.js Route Handlers (`/api/shipments/*`) serving paginated, filterable mock data.
 - **Shipment tracking** — live status updates with filterable data tables
 - **Analytics** — carrier-level charts built with Recharts (delivery rate, delay breakdown, volume over time)
 - **Notifications** — toast system via Sonner
