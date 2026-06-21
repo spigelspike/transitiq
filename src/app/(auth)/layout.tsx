@@ -104,7 +104,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="w-full px-6 pb-20 mx-auto max-w-sm"
+            className="w-full px-6 pb-8 mx-auto max-w-sm"
           >
             {/* CTA buttons */}
             <Button
