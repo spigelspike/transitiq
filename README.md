@@ -65,9 +65,6 @@ The AI layer will be modular — swappable between OpenAI, Gemini, or a self-hos
 **Requirements:** Node.js v18+
 
 ```bash
-# Clone and enter the project
-cd transitiq
-
 # Install dependencies
 npm install
 
