@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ONBOARDING_SLIDES = [
-  { image: "/images/auth_assets/carousel1.webp" },
-  { image: "/images/auth_assets/carousel2.webp" },
-  { image: "/images/auth_assets/carousel3.webp" },
+  { image: "/auth_assets/carousel1.webp" },
+  { image: "/auth_assets/carousel2.webp" },
+  { image: "/auth_assets/carousel3.webp" },
 ];
 
 const CARRIERS = ["FedEx", "DHL", "UPS", "BlueDart", "USPS"];
@@ -97,7 +97,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
 
         {/* Mobile: welcome screen */}
         <div className="lg:hidden h-screen flex flex-col bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/images/auth_assets/sign_login.webp')" }}
+          style={{ backgroundImage: "url('/auth_assets/sign_login.webp')" }}
         >
           <div className="flex-1" />
           <motion.div

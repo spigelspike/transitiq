@@ -16,7 +16,7 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
       {/* ── FULL SCREEN BACKGROUND (desktop only) ────────────────────────── */}
       <div className="hidden lg:block absolute inset-0 z-0 overflow-hidden">
         <img 
-          src="/images/auth_assets/auth_bg.webp" 
+          src="/auth_assets/auth_bg.webp" 
           alt="TransitIQ Platform" 
           className="w-full h-full object-cover object-center"
         />
