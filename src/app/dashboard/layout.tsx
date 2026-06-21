@@ -180,7 +180,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="bg-white/90 backdrop-blur-xl rounded-[2rem] p-2 flex items-center gap-1 shadow-2xl border border-slate-200/50 max-w-full overflow-x-auto pointer-events-auto snap-x snap-mandatory"
+          className="bg-white/90 backdrop-blur-xl rounded-[2rem] p-2 flex items-center gap-1 shadow-2xl border border-slate-200/50 w-max max-w-full overflow-x-auto pointer-events-auto snap-x snap-mandatory"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {NAV_ITEMS.map((item) => {

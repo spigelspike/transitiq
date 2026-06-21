@@ -53,13 +53,13 @@ export default function AnalyticsPage() {
       </div>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 md:p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
               <Package className="w-5 h-5 text-indigo-600" />
             </div>
-            <span className="flex items-center gap-1 text-xs font-bold text-emerald-600">
+            <span className="flex items-center gap-1 text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">
               <ArrowUpRight className="w-3 h-3" /> 12%
             </span>
           </div>
@@ -67,12 +67,12 @@ export default function AnalyticsPage() {
           <p className="text-xs font-semibold text-slate-500 mt-0.5">Total Shipments</p>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 md:p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
               <CheckCircle2 className="w-5 h-5 text-emerald-600" />
             </div>
-            <span className="flex items-center gap-1 text-xs font-bold text-emerald-600">
+            <span className="flex items-center gap-1 text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">
               <TrendingUp className="w-3 h-3" /> 2.4%
             </span>
           </div>
@@ -80,7 +80,7 @@ export default function AnalyticsPage() {
           <p className="text-xs font-semibold text-slate-500 mt-0.5">Delivery Success Rate</p>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 md:p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
               <Clock className="w-5 h-5 text-blue-600" />
@@ -90,12 +90,12 @@ export default function AnalyticsPage() {
           <p className="text-xs font-semibold text-slate-500 mt-0.5">Avg. Delivery Time</p>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 md:p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center">
               <AlertTriangle className="w-5 h-5 text-red-500" />
             </div>
-            <span className="flex items-center gap-1 text-xs font-bold text-red-500">
+            <span className="flex items-center gap-1 text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded-lg">
               <TrendingDown className="w-3 h-3" /> 1.2%
             </span>
           </div>
@@ -156,9 +156,50 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Carrier Performance Table */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-        <h3 className="font-bold text-slate-900 mb-6">Carrier Performance</h3>
-        <div className="overflow-x-auto">
+      <div className="bg-white border border-slate-200 rounded-2xl p-4 md:p-6 shadow-sm">
+        <h3 className="font-bold text-slate-900 mb-4 md:mb-6">Carrier Performance</h3>
+        
+        {/* Mobile View */}
+        <div className="md:hidden space-y-3">
+          {carrierData.map((c) => (
+            <div key={c.carrier} className="border border-slate-100 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span
+                  className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold"
+                  style={{ backgroundColor: `${CARRIER_COLORS[c.carrier]}15`, color: CARRIER_COLORS[c.carrier] }}
+                >
+                  {c.carrier}
+                </span>
+                <span className="text-xs font-bold text-slate-500">Total: {c.total}</span>
+              </div>
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <div className="bg-slate-50 rounded-lg p-2.5 text-center">
+                  <p className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Success Rate</p>
+                  <p className={`text-sm font-bold ${c.successRate >= 70 ? "text-emerald-600" : c.successRate >= 40 ? "text-amber-600" : "text-red-600"}`}>
+                    {c.successRate}%
+                  </p>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-2.5 text-center">
+                  <p className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Avg. Time</p>
+                  <p className="text-sm font-bold text-slate-700">{c.avgDays > 0 ? `${c.avgDays} days` : "—"}</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-xs mb-2 px-1">
+                <span className="font-semibold text-emerald-600">{c.delivered} Delivered</span>
+                <span className="font-semibold text-red-500">{c.failed} Failed</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2">
+                <div
+                  className="h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${(c.total / maxCarrierTotal) * 100}%`, backgroundColor: CARRIER_COLORS[c.carrier] }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-slate-100">
