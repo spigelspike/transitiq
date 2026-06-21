@@ -212,8 +212,8 @@ export function applyStatusFilter(shipments: Shipment[], status: ShipmentStatus 
 
 export function applySort(shipments: Shipment[], sortBy: string, order: "asc" | "desc"): Shipment[] {
   return [...shipments].sort((a, b) => {
-    let valA: any = a[sortBy as keyof Shipment];
-    let valB: any = b[sortBy as keyof Shipment];
+    let valA = a[sortBy as keyof Shipment] as unknown;
+    let valB = b[sortBy as keyof Shipment] as unknown;
 
     if (sortBy === "createdAt" || sortBy === "estimatedDelivery") {
       valA = new Date(valA as string).getTime();
