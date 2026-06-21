@@ -116,7 +116,7 @@ export default function SettingsPage() {
       <section className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-3">
           <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
-            <Bell className="w-4 h-4 text-blue-600" />
+            <Bell className="w-4 h-4 text-[#3777fe]" />
           </div>
           <div>
             <h2 className="text-base font-bold text-slate-900">Notifications</h2>

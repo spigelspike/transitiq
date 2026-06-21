@@ -123,7 +123,7 @@ export default function ResetPasswordPage() {
         {/* Submit */}
         <Button type="submit" disabled={isLoading}
           className="w-full h-12 text-sm font-semibold rounded-xl"
-          style={{ background: "linear-gradient(135deg, #4F46E5, #8B5CF6)" }}
+          style={{ background: "linear-gradient(135deg, #3777fe, #8B5CF6)" }}
         >
           {isLoading ? (
             <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Resetting...</>
@@ -133,7 +133,7 @@ export default function ResetPasswordPage() {
 
       <p className="text-center text-sm text-gray-500 mt-6">
         Remember your password?{" "}
-        <Link href="/sign-in" className="font-semibold hover:underline" style={{ color: "#4F46E5" }}>
+        <Link href="/sign-in" className="font-semibold hover:underline" style={{ color: "#3777fe" }}>
           Sign in
         </Link>
       </p>

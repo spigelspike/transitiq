@@ -50,7 +50,7 @@ export default function Navbar() {
               Sign in
             </Link>
             <Link href="/sign-up" className="flex items-center text-sm font-bold text-white px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5"
-              style={{ background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}
+              style={{ background: "linear-gradient(135deg, #3777fe, #6366F1)" }}
             >
               Get Started
               <ChevronRight className="w-4 h-4 ml-1 -mr-1" />
@@ -64,7 +64,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2">
           <img src="/logo.png" alt="TransitIQ Logo" className="h-6 w-auto" />
         </Link>
-        <Link href="/sign-in" className="text-sm font-bold text-[#4F46E5]">
+        <Link href="/sign-in" className="text-sm font-bold text-[#3777fe]">
           Log in
         </Link>
       </div>

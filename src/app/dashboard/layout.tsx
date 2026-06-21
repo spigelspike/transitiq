@@ -142,11 +142,11 @@ function SidebarContent() {
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
                 isActive 
-                  ? "bg-blue-600/10 text-blue-700" 
+                  ? "bg-[#3777fe]/10 text-blue-700" 
                   : "text-slate-500 hover:text-slate-900 hover:bg-slate-100/50"
               }`}
             >
-              <item.icon className={`w-5 h-5 ${isActive ? "text-blue-600" : "text-slate-400"}`} />
+              <item.icon className={`w-5 h-5 ${isActive ? "text-[#3777fe]" : "text-slate-400"}`} />
               {item.label}
             </Link>
           );
@@ -237,7 +237,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   isActive ? "text-blue-700 bg-blue-50" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
                 }`}
               >
-                <item.icon className={`w-5 h-5 mb-0.5 ${isActive ? "text-blue-600" : ""}`} />
+                <item.icon className={`w-5 h-5 mb-0.5 ${isActive ? "text-[#3777fe]" : ""}`} />
                 <span className="text-[10px] font-semibold">{item.label}</span>
               </Link>
             );

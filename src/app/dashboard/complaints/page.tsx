@@ -217,7 +217,7 @@ export default function ComplaintsPage() {
       {/* KPI Row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Open", value: kpis.open, icon: <AlertCircle className="w-5 h-5 text-blue-600" />, bg: "bg-blue-50" },
+          { label: "Open", value: kpis.open, icon: <AlertCircle className="w-5 h-5 text-[#3777fe]" />, bg: "bg-blue-50" },
           { label: "Critical", value: kpis.critical, icon: <AlertTriangle className="w-5 h-5 text-red-500" />, bg: "bg-red-50" },
           { label: "Resolved", value: kpis.resolved, icon: <CheckCircle2 className="w-5 h-5 text-emerald-600" />, bg: "bg-emerald-50" },
           { label: "Avg. Resolution", value: `${kpis.avgResolution}h`, icon: <Clock className="w-5 h-5 text-indigo-600" />, bg: "bg-indigo-50" },

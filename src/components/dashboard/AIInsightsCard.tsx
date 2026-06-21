@@ -48,7 +48,7 @@ export default function AIInsightsCard() {
             
             <Link 
               href={insight.href}
-              className="text-[13px] font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group w-max"
+              className="text-[13px] font-bold text-[#3777fe] hover:text-blue-700 flex items-center gap-1 group w-max"
             >
               {insight.linkText}
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

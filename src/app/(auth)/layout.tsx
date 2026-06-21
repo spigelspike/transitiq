@@ -70,7 +70,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
                 <div key={i} className="h-2 rounded-full transition-all duration-300"
                   style={{
                     width: i === currentSlide ? 24 : 8,
-                    background: i === currentSlide ? "#4F46E5" : "#D1D5DB",
+                    background: i === currentSlide ? "#3777fe" : "#D1D5DB",
                   }}
                 />
               ))}
@@ -109,7 +109,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
             {/* CTA buttons */}
             <Button
               className="w-full h-14 text-[15px] font-semibold rounded-2xl mb-4 shadow-xl shadow-indigo-500/20 text-white transition-transform hover:scale-[1.02]"
-              style={{ background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}
+              style={{ background: "linear-gradient(135deg, #3777fe, #6366F1)" }}
               onClick={() => { setShowOnboarding(false); router.push("/sign-up"); }}
             >
               Create Account

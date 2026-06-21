@@ -106,7 +106,7 @@ export default function RecentActivityFeed() {
     <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm h-full flex flex-col p-4 md:p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="font-bold text-slate-900">Recent Activity</h3>
-        <Link href="/dashboard#shipments" className="text-[13px] font-bold text-blue-600 hover:text-blue-700 flex items-center group">
+        <Link href="/dashboard#shipments" className="text-[13px] font-bold text-[#3777fe] hover:text-blue-700 flex items-center group">
           View all <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
         </Link>
       </div>

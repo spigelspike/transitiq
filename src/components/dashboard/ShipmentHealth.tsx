@@ -94,7 +94,7 @@ export default function ShipmentHealth() {
         {/* KPI card */}
         <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-3xl font-bold text-blue-600 tracking-tight">{successRate}%</span>
+            <span className="text-3xl font-bold text-[#3777fe] tracking-tight">{successRate}%</span>
             <p className="text-xs font-medium text-slate-500 mt-0.5">On-time delivery</p>
           </div>
           <div className="flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">
@@ -109,8 +109,8 @@ export default function ShipmentHealth() {
             <AreaChart data={trendData} margin={{ top: 5, right: 5, left: -30, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorValueMobile" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#2563EB" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#3777fe" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="#3777fe" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis 
@@ -124,7 +124,7 @@ export default function ShipmentHealth() {
               <Area 
                 type="monotone" 
                 dataKey="value" 
-                stroke="#2563EB" 
+                stroke="#3777fe" 
                 strokeWidth={2}
                 fillOpacity={1} 
                 fill="url(#colorValueMobile)" 
@@ -151,7 +151,7 @@ export default function ShipmentHealth() {
       <div className="hidden md:flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         {/* Left Stats */}
         <div className="flex flex-col shrink-0 min-w-[140px]">
-          <span className="text-5xl font-bold text-blue-600 tracking-tight mb-1">{successRate}%</span>
+          <span className="text-5xl font-bold text-[#3777fe] tracking-tight mb-1">{successRate}%</span>
           <span className="text-sm font-medium text-slate-500 mb-6">On-time delivery</span>
           
           <div className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600">
@@ -166,8 +166,8 @@ export default function ShipmentHealth() {
             <AreaChart data={trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#2563EB" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#3777fe" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="#3777fe" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis 
@@ -191,11 +191,11 @@ export default function ShipmentHealth() {
               <Area 
                 type="monotone" 
                 dataKey="value" 
-                stroke="#2563EB" 
+                stroke="#3777fe" 
                 strokeWidth={3}
                 fillOpacity={1} 
                 fill="url(#colorValue)" 
-                activeDot={{ r: 6, fill: "#2563EB", stroke: "#FFF", strokeWidth: 2 }}
+                activeDot={{ r: 6, fill: "#3777fe", stroke: "#FFF", strokeWidth: 2 }}
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -225,7 +225,7 @@ export default function ShipmentHealth() {
             </ResponsiveContainer>
             {/* Center Icon */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <Truck className="w-6 h-6 text-blue-600" />
+              <Truck className="w-6 h-6 text-[#3777fe]" />
             </div>
           </div>
 

@@ -118,7 +118,7 @@ export default function MetricsRow() {
       suffix: "",
       icon: Truck,
       iconBg: "bg-gradient-to-br from-blue-50 to-cyan-50",
-      iconColor: "text-blue-600",
+      iconColor: "text-[#3777fe]",
       iconGlow: "shadow-[0_0_15px_rgba(37,99,235,0.15)]",
       trend: "Across 3 carriers",
       trendColor: "text-slate-500",

@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
             {/* Submit */}
             <Button type="submit" disabled={isLoading}
               className="w-full h-12 text-sm font-semibold rounded-xl"
-              style={{ background: "linear-gradient(135deg, #4F46E5, #8B5CF6)" }}
+              style={{ background: "linear-gradient(135deg, #3777fe, #8B5CF6)" }}
             >
               {isLoading ? (
                 <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Sending...</>

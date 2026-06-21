@@ -155,7 +155,7 @@ export default function LandingPage() {
               className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center"
             >
               <Link href="/sign-up" className="w-full sm:w-auto flex items-center justify-center text-[15px] font-bold text-white px-8 py-3.5 rounded-2xl shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-1"
-                style={{ background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}
+                style={{ background: "linear-gradient(135deg, #3777fe, #6366F1)" }}
               >
                 Start for free
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -268,7 +268,7 @@ export default function LandingPage() {
                       {/* FOOTER ALERT */}
                       <div className="bg-slate-50/80 border border-slate-100 rounded-[1.25rem] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
                         <div className="flex items-start md:items-center gap-4">
-                          <div className="text-blue-600 bg-blue-100 p-2 rounded-xl shrink-0"><ShieldCheck className="w-5 h-5" /></div>
+                          <div className="text-[#3777fe] bg-blue-100 p-2 rounded-xl shrink-0"><ShieldCheck className="w-5 h-5" /></div>
                           <div>
                             <div className="font-bold text-slate-900 text-sm mb-0.5 tracking-tight">Shipment is safe</div>
                             <div className="text-slate-500 text-xs font-medium">We'll notify you when your package is out for delivery.</div>
@@ -453,7 +453,7 @@ export default function LandingPage() {
                         <tr className="hover:bg-slate-50/50 transition-colors">
                           <td className="px-5 py-3 font-mono">TRK784068843408</td>
                           <td className="px-5 py-3"><img src="/logos/fedex.svg" className="h-3" alt="FedEx" /></td>
-                          <td className="px-5 py-3"><span className="text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase">In Transit</span></td>
+                          <td className="px-5 py-3"><span className="text-[#3777fe] bg-blue-50 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase">In Transit</span></td>
                           <td className="px-5 py-3 text-slate-900">May 22, 09:30 AM</td>
                         </tr>
                         <tr className="hover:bg-slate-50/50 transition-colors">
@@ -465,7 +465,7 @@ export default function LandingPage() {
                         <tr className="hover:bg-slate-50/50 transition-colors">
                           <td className="px-5 py-3 font-mono">JD014600012345678901</td>
                           <td className="px-5 py-3"><img src="/logos/dhl.svg" className="h-2.5" alt="DHL" /></td>
-                          <td className="px-5 py-3"><span className="text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase">In Transit</span></td>
+                          <td className="px-5 py-3"><span className="text-[#3777fe] bg-blue-50 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase">In Transit</span></td>
                           <td className="px-5 py-3 text-slate-900">May 23, 11:20 AM</td>
                         </tr>
                         <tr className="hover:bg-slate-50/50 transition-colors">

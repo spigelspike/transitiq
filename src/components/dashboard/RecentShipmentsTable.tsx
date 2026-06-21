@@ -73,7 +73,7 @@ export default function RecentShipmentsTable() {
     <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm w-full mt-6 flex flex-col">
       <div className="p-6 pb-4 flex items-center justify-between border-b border-slate-100">
         <h3 className="font-bold text-slate-900">Recent Shipments</h3>
-        <Link href="/dashboard#shipments" className="text-[13px] font-bold text-blue-600 hover:text-blue-700 flex items-center group">
+        <Link href="/dashboard#shipments" className="text-[13px] font-bold text-[#3777fe] hover:text-blue-700 flex items-center group">
           View all shipments <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
         </Link>
       </div>

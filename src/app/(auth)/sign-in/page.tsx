@@ -126,12 +126,12 @@ function SignInContent() {
               <input
                 type="checkbox"
                 {...register("rememberMe")}
-                className="w-4 h-4 rounded border-slate-300 accent-[#4F46E5] cursor-pointer"
+                className="w-4 h-4 rounded border-slate-300 accent-[#3777fe] cursor-pointer"
               />
             </div>
             <span className="text-[13px] font-medium text-slate-600 group-hover:text-slate-900 transition-colors">Remember me</span>
           </label>
-          <Link href="/forgot-password" className="text-[13px] font-bold text-[#4F46E5] hover:text-indigo-700 transition-colors">
+          <Link href="/forgot-password" className="text-[13px] font-bold text-[#3777fe] hover:text-indigo-700 transition-colors">
             Forgot password?
           </Link>
         </div>
@@ -148,7 +148,7 @@ function SignInContent() {
           type="submit"
           disabled={isLoading}
           className="w-full h-12 text-[14px] font-bold rounded-2xl shadow-xl shadow-indigo-500/20 text-white transition-transform hover:scale-[1.02] mt-1"
-          style={{ background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}
+          style={{ background: "linear-gradient(135deg, #3777fe, #6366F1)" }}
         >
           {isLoading ? (
             <>
@@ -186,7 +186,7 @@ function SignInContent() {
       {/* Footer link */}
       <p className="text-center text-sm text-gray-500">
         Don&apos;t have an account?{" "}
-        <Link href="/sign-up" className="font-semibold hover:underline" style={{ color: "#4F46E5" }}>
+        <Link href="/sign-up" className="font-semibold hover:underline" style={{ color: "#3777fe" }}>
           Sign up
         </Link>
       </p>

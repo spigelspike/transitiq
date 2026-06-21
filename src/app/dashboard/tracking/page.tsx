@@ -160,7 +160,7 @@ export default function TrackingPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
-                  <MapPin className="w-5 h-5 text-blue-600" />
+                  <MapPin className="w-5 h-5 text-[#3777fe]" />
                 </div>
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-0.5">Origin</p>

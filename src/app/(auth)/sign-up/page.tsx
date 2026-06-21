@@ -180,13 +180,13 @@ export default function SignUpPage() {
         <label className="flex items-start gap-2.5 cursor-pointer pt-0.5">
           <input type="checkbox"
             {...register("agreed")}
-            className="w-4 h-4 rounded border-slate-300 accent-[#4F46E5] mt-0.5 cursor-pointer"
+            className="w-4 h-4 rounded border-slate-300 accent-[#3777fe] mt-0.5 cursor-pointer"
           />
           <span className="text-[12px] text-slate-600 leading-tight">
             I agree to the{" "}
-            <Link href="#" className="font-bold text-[#4F46E5] hover:text-indigo-700 transition-colors">Terms of Service</Link>
+            <Link href="#" className="font-bold text-[#3777fe] hover:text-indigo-700 transition-colors">Terms of Service</Link>
             {" "}and{" "}
-            <Link href="#" className="font-bold text-[#4F46E5] hover:text-indigo-700 transition-colors">Privacy Policy</Link>
+            <Link href="#" className="font-bold text-[#3777fe] hover:text-indigo-700 transition-colors">Privacy Policy</Link>
           </span>
         </label>
         {errors.agreed && <p className="text-xs text-red-500 -mt-2">{errors.agreed.message}</p>}
@@ -199,7 +199,7 @@ export default function SignUpPage() {
         {/* Submit */}
         <Button type="submit" disabled={isLoading}
           className="w-full h-11 text-[14px] font-bold rounded-xl shadow-xl shadow-indigo-500/20 text-white transition-transform hover:scale-[1.02] mt-1"
-          style={{ background: "linear-gradient(135deg, #4F46E5, #6366F1)" }}
+          style={{ background: "linear-gradient(135deg, #3777fe, #6366F1)" }}
         >
           {isLoading ? (
             <><Loader2 className="w-5 h-5 mr-2 animate-spin" />Creating account...</>
@@ -226,7 +226,7 @@ export default function SignUpPage() {
 
       <p className="text-center text-[13px] text-slate-500">
         Already have an account?{" "}
-        <Link href="/sign-in" className="font-bold text-[#4F46E5] hover:text-indigo-700 transition-colors">Sign in</Link>
+        <Link href="/sign-in" className="font-bold text-[#3777fe] hover:text-indigo-700 transition-colors">Sign in</Link>
       </p>
     </AuthLayout>
   );

@@ -267,7 +267,7 @@ export default function ShipmentDetailPage() {
                   {a.icon} {a.label}
                 </button>
               ))}
-              <button onClick={() => setShowFacilityPanel(!showFacilityPanel)} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors">
+              <button onClick={() => setShowFacilityPanel(!showFacilityPanel)} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold text-[#3777fe] bg-blue-50 hover:bg-blue-100 transition-colors">
                 <Building2 className="w-4 h-4" /> Contact Last Facility
               </button>
             </div>

@@ -9,7 +9,7 @@ const CARRIER_COLORS: Record<string, { bg: string; text: string; accent: string;
   FedEx: { bg: "bg-purple-50", text: "text-purple-700", accent: "#7C3AED", border: "border-purple-200" },
   UPS: { bg: "bg-amber-50", text: "text-amber-700", accent: "#D97706", border: "border-amber-200" },
   DHL: { bg: "bg-red-50", text: "text-red-700", accent: "#DC2626", border: "border-red-200" },
-  USPS: { bg: "bg-blue-50", text: "text-blue-700", accent: "#2563EB", border: "border-blue-200" },
+  USPS: { bg: "bg-blue-50", text: "text-blue-700", accent: "#3777fe", border: "border-blue-200" },
   BlueDart: { bg: "bg-cyan-50", text: "text-cyan-700", accent: "#0891B2", border: "border-cyan-200" },
 };
 
@@ -121,7 +121,7 @@ export default function CarriersPage() {
                 <div className="bg-slate-50 rounded-xl p-3">
                   <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Active Now</p>
                   <div className="flex items-center gap-4 text-sm">
-                    <span className="font-semibold text-blue-600">{c.inTransit} in transit</span>
+                    <span className="font-semibold text-[#3777fe]">{c.inTransit} in transit</span>
                     <span className="text-slate-300">·</span>
                     <span className="font-semibold text-indigo-600">{c.outForDelivery} out for delivery</span>
                     <span className="text-slate-300">·</span>
