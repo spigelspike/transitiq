@@ -247,13 +247,13 @@ export default function LandingPage() {
         {/* ── SECTION 2: CARRIERS ──────────────────────────────────────── */}
         <section id="carriers" className="py-10 bg-white border-y border-slate-100">
           <div className="container mx-auto px-6 max-w-6xl text-center">
-            <p className="text-xs font-bold tracking-widest text-slate-400 uppercase mb-6">Trusted across all major carriers</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-              <span className="text-xl md:text-2xl font-black text-[#4D148C]">FedEx</span>
-              <span className="text-xl md:text-2xl font-black text-[#351C15]">UPS</span>
-              <span className="text-xl md:text-2xl font-black text-[#D40511]">DHL</span>
-              <span className="text-xl md:text-2xl font-black text-[#004B87]">USPS</span>
-              <span className="text-xl md:text-2xl font-black text-[#0033A0]">BlueDart</span>
+            <p className="text-xs font-bold tracking-widest text-slate-400 uppercase mb-8">Trusted across all major carriers</p>
+            <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20">
+              <img src="/logos/fedex.svg" alt="FedEx" className="h-7 md:h-9 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer" />
+              <img src="/logos/ups.svg" alt="UPS" className="h-10 md:h-12 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer" />
+              <img src="/logos/dhl.svg" alt="DHL" className="h-6 md:h-8 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer" />
+              <img src="/logos/armex.svg" alt="Aramex" className="h-7 md:h-9 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer" />
+              <img src="/logos/bluedart.png" alt="BlueDart" className="h-6 md:h-8 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer" />
             </div>
           </div>
         </section>

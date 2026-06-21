@@ -41,7 +41,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
         <div className="hidden lg:block">{children}</div>
 
         {/* Mobile: show onboarding carousel — full-screen image */}
-        <div className="lg:hidden relative h-screen w-screen overflow-hidden">
+        <div className="lg:hidden relative h-[100dvh] w-full overflow-hidden bg-white">
           <AnimatePresence mode="wait">
             <motion.img
               key={currentSlide}
@@ -51,7 +51,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-contain object-top"
             />
           </AnimatePresence>
 
@@ -96,7 +96,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
         <div className="hidden lg:block">{children}</div>
 
         {/* Mobile: welcome screen */}
-        <div className="lg:hidden h-screen flex flex-col bg-cover bg-center bg-no-repeat"
+        <div className="lg:hidden h-[100dvh] flex flex-col bg-cover bg-center bg-no-repeat bg-white"
           style={{ backgroundImage: "url('/auth_assets/sign_login.webp')" }}
         >
           <div className="flex-1" />
@@ -104,7 +104,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="w-full px-6 pb-28 mx-auto max-w-sm"
+            className="w-full px-6 pb-12 mx-auto max-w-sm"
           >
             {/* CTA buttons */}
             <Button
