@@ -33,3 +33,9 @@
 3. **Fixed Domain Logic**: Only use the 6 predefined shipment statuses, 5 specific carriers, and exact brand colors provided.
 4. **Step-by-step Workflow**: Execute tasks strictly one at a time and NEVER proceed to the next task until explicitly instructed to do so.
 5. **Explicit Confirmation**: Always confirm exactly which files were created or modified at the end of every task.
+
+<!-- BEGIN:nextjs-agent-rules -->
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+<!-- END:nextjs-agent-rules -->
