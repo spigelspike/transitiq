@@ -23,7 +23,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -92,12 +91,12 @@ function SidebarContent() {
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56 mt-2 rounded-xl">
-            <DropdownMenuLabel className="font-normal">
+            <div className="px-1.5 py-1.5">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-bold text-slate-900 leading-none">Alex Morgan</p>
                 <p className="text-xs text-slate-500 leading-none text-muted-foreground">alex@transitiq.com</p>
               </div>
-            </DropdownMenuLabel>
+            </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
               className="cursor-pointer font-medium text-slate-700"
@@ -183,12 +182,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 mt-2 rounded-xl">
-                <DropdownMenuLabel className="font-normal">
+                <div className="px-1.5 py-1.5">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-bold text-slate-900 leading-none">Alex Morgan</p>
                     <p className="text-xs text-slate-500 leading-none text-muted-foreground">alex@transitiq.com</p>
                   </div>
-                </DropdownMenuLabel>
+                </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
                   className="cursor-pointer font-medium text-slate-700"
