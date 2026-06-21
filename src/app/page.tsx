@@ -49,6 +49,7 @@ export default function LandingPage() {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [searchResult, setSearchResult] = useState<Shipment | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
+  const [billingCurrency, setBillingCurrency] = useState<"USD" | "INR">("USD");
 
   const executeSearch = (query: string) => {
     if (!query.trim()) return;
@@ -106,7 +107,7 @@ export default function LandingPage() {
               >
                 <img src="/box.png" alt="TransitIQ Box Logo" className="h-16 md:h-24 w-auto object-contain" />
               </motion.div>
-              
+
               <motion.div
                 initial="hidden"
                 animate="visible"
@@ -159,7 +160,7 @@ export default function LandingPage() {
                 Start for free
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
-              <Link href="/dashboard" className="w-full sm:w-auto flex items-center justify-center text-[15px] font-bold text-slate-700 bg-white border border-slate-200 px-8 py-3.5 rounded-2xl shadow-sm hover:bg-slate-50 hover:-translate-y-1 transition-all">
+              <Link href="/sign-in" className="w-full sm:w-auto flex items-center justify-center text-[15px] font-bold text-slate-700 bg-white border border-slate-200 px-8 py-3.5 rounded-2xl shadow-sm hover:bg-slate-50 hover:-translate-y-1 transition-all">
                 See live demo
               </Link>
             </motion.div>
@@ -187,7 +188,7 @@ export default function LandingPage() {
                 <div className="mt-4 text-left">
                   {searchResult ? (
                     <div className="bg-white border border-slate-200 rounded-[2rem] p-6 md:p-8 shadow-xl shadow-slate-200/50 w-full max-w-4xl mx-auto mt-6 text-left relative z-20">
-                      
+
                       {/* HEADER */}
                       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                         <div className="flex items-center gap-4">
@@ -241,7 +242,7 @@ export default function LandingPage() {
                           <div className="absolute top-[26px] left-[10%] right-[10%] h-[3px] bg-slate-100 z-0"></div>
                           {/* Line foreground (dynamic width) */}
                           <div className="absolute top-[26px] left-[10%] h-[3px] bg-indigo-600 z-0 transition-all duration-1000" style={{ width: searchResult.status === 'delivered' ? '80%' : searchResult.status === 'out_for_delivery' ? '60%' : searchResult.status === 'in_transit' ? '40%' : searchResult.status === 'pending' ? '0%' : '100%' }}></div>
-                          
+
                           <div className="flex justify-between relative z-10">
                             {[
                               { label: "Label Created", status: "completed", date: "Jun 24" },
@@ -383,7 +384,7 @@ export default function LandingPage() {
 
             {/* Bento Grid */}
             <div className="flex flex-col gap-6">
-              
+
               {/* Row 1: Real-Time Tracking (Spans Full Width) */}
               <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
                 className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 md:p-12 flex flex-col lg:flex-row gap-12 overflow-hidden relative"
@@ -406,7 +407,7 @@ export default function LandingPage() {
                       <CheckCircle2 className="w-5 h-5 text-indigo-500" /> Delivery timeline view
                     </li>
                   </ul>
-                  <Link href="/dashboard" className="inline-flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors self-start">
+                  <Link href="/sign-in" className="inline-flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors self-start">
                     Explore tracking <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -416,8 +417,8 @@ export default function LandingPage() {
                   <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-slate-50/50 gap-4">
                     <div className="font-bold text-slate-900">Shipments</div>
                     <div className="flex gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
-                       <div className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-400 text-xs flex items-center gap-2 whitespace-nowrap min-w-[200px]"><Search className="w-3 h-3"/> Search by tracking ID...</div>
-                       <div className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-600 text-xs font-medium whitespace-nowrap">All Carriers</div>
+                      <div className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-400 text-xs flex items-center gap-2 whitespace-nowrap min-w-[200px]"><Search className="w-3 h-3" /> Search by tracking ID...</div>
+                      <div className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-600 text-xs font-medium whitespace-nowrap">All Carriers</div>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-slate-100">
@@ -481,7 +482,7 @@ export default function LandingPage() {
 
               {/* Row 2: 4 Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
+
                 {/* Card 1: Carrier Analytics */}
                 <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
                   className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 flex flex-col"
@@ -489,20 +490,20 @@ export default function LandingPage() {
                   <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
                     <BarChart3 className="w-4 h-4" /> Carrier Analytics
                   </div>
-                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">Compare.<br/>Analyze.<br/>Optimize.</h4>
+                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">Compare.<br />Analyze.<br />Optimize.</h4>
                   <p className="text-slate-500 mb-8 text-sm font-medium">Track SLA performance, on-time delivery, and cost efficiency across all your carriers.</p>
-                  
+
                   <div className="mt-auto bg-slate-50 rounded-xl p-4 border border-slate-100 relative h-36 overflow-hidden flex flex-col justify-end group">
                     <div className="absolute top-4 left-4">
                       <div className="text-[10px] font-bold text-slate-400 uppercase">On-time Delivery</div>
                       <div className="text-xl font-black text-slate-900 flex items-center gap-1">92.6% <span className="text-[10px] text-emerald-500 bg-emerald-50 px-1 py-0.5 rounded">↑ 8.7%</span></div>
                     </div>
                     <svg className="w-full h-16 stroke-indigo-500 stroke-2 fill-none group-hover:scale-[1.02] transition-transform duration-500" viewBox="0 0 100 30" preserveAspectRatio="none">
-                      <path d="M0,28 C20,25 30,28 50,15 C70,2 80,10 100,5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <circle cx="25" cy="26" r="1.5" className="fill-indigo-500"/>
-                      <circle cx="50" cy="15" r="1.5" className="fill-indigo-500"/>
-                      <circle cx="75" cy="8" r="1.5" className="fill-indigo-500"/>
-                      <circle cx="100" cy="5" r="1.5" className="fill-indigo-500"/>
+                      <path d="M0,28 C20,25 30,28 50,15 C70,2 80,10 100,5" strokeLinecap="round" strokeLinejoin="round" />
+                      <circle cx="25" cy="26" r="1.5" className="fill-indigo-500" />
+                      <circle cx="50" cy="15" r="1.5" className="fill-indigo-500" />
+                      <circle cx="75" cy="8" r="1.5" className="fill-indigo-500" />
+                      <circle cx="100" cy="5" r="1.5" className="fill-indigo-500" />
                     </svg>
                   </div>
                 </motion.div>
@@ -516,7 +517,7 @@ export default function LandingPage() {
                   </div>
                   <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">AI that spots issues early</h4>
                   <p className="text-slate-500 mb-8 text-sm font-medium">Predict delays, flag exceptions, and get actionable recommendations with AI.</p>
-                  
+
                   <div className="mt-auto bg-white border border-red-100 shadow-[0_4px_20px_-4px_rgba(239,68,68,0.1)] rounded-xl p-5 relative">
                     <div className="flex items-start gap-3">
                       <div className="bg-red-50 p-2 rounded-lg text-red-500 shrink-0"><AlertCircle className="w-4 h-4" /></div>
@@ -538,7 +539,7 @@ export default function LandingPage() {
                   </div>
                   <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">Collaborate with your team</h4>
                   <p className="text-slate-500 mb-8 text-sm font-medium">Role-based access, shipment notes, and real-time updates keep everyone aligned.</p>
-                  
+
                   <div className="mt-auto bg-slate-50 rounded-xl p-5 border border-slate-100 flex flex-col gap-4">
                     <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Recent Activity</div>
                     <div className="flex items-center gap-3">
@@ -563,19 +564,19 @@ export default function LandingPage() {
                   <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
                     <Package className="w-4 h-4" /> Multi-Carrier Unified
                   </div>
-                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">One API.<br/>All major carriers.</h4>
+                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">One API.<br />All major carriers.</h4>
                   <p className="text-slate-500 mb-8 text-sm font-medium">Connect with FedEx, UPS, DHL, USPS, BlueDart and more seamlessly.</p>
-                  
+
                   <div className="mt-auto grid grid-cols-2 gap-3">
-                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/fedex.svg" className="h-3.5" alt="FedEx"/></div>
-                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/ups.svg" className="h-5" alt="UPS"/></div>
-                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/dhl.svg" className="h-3" alt="DHL"/></div>
+                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/fedex.svg" className="h-3.5" alt="FedEx" /></div>
+                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/ups.svg" className="h-5" alt="UPS" /></div>
+                    <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/dhl.svg" className="h-3" alt="DHL" /></div>
                     <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors text-[10px] font-bold text-slate-500 uppercase">+ More</div>
                   </div>
                 </motion.div>
 
               </div>
-              
+
               {/* Trust Badge Footer */}
               <div className="text-center mt-10 flex flex-wrap items-center justify-center gap-3 text-[13px] font-bold text-slate-400">
                 <CheckCircle2 className="w-4 h-4 text-slate-300" /> Enterprise-grade security <span className="hidden sm:inline">·</span> 99.9% uptime <span className="hidden sm:inline">·</span> Scalable for any volume
@@ -640,7 +641,90 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ── SECTION 6: CTA ────────────────────────────────────────────── */}
+        {/* ── SECTION 6: PRICING ────────────────────────────────────────── */}
+        <section id="pricing" className="py-24 bg-slate-50 border-t border-slate-200 relative overflow-hidden">
+          <div className="container mx-auto px-6 max-w-[80rem]">
+            <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Simple, transparent pricing</h2>
+              <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto mb-10">Choose the perfect plan for your logistics volume. No hidden fees.</p>
+
+              {/* Currency Toggle */}
+              <div className="inline-flex items-center p-1.5 bg-white rounded-2xl border border-slate-200 shadow-sm relative z-20">
+                <button
+                  onClick={() => setBillingCurrency("USD")}
+                  className={`px-8 py-3 rounded-xl text-sm font-bold transition-all ${billingCurrency === "USD" ? "bg-indigo-600 text-white shadow-md" : "text-slate-500 hover:text-slate-700"}`}
+                >
+                  USD ($)
+                </button>
+                <button
+                  onClick={() => setBillingCurrency("INR")}
+                  className={`px-8 py-3 rounded-xl text-sm font-bold transition-all ${billingCurrency === "INR" ? "bg-indigo-600 text-white shadow-md" : "text-slate-500 hover:text-slate-700"}`}
+                >
+                  INR (₹)
+                </button>
+              </div>
+            </motion.div>
+
+            <div className="grid lg:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto">
+              {[
+                {
+                  name: "Starter",
+                  desc: "Perfect for small e-commerce stores just starting out.",
+                  priceUSD: 0, priceINR: 0,
+                  features: ["Up to 500 shipments/mo", "Basic tracking page", "Email support", "Standard integrations"],
+                  popular: false
+                },
+                {
+                  name: "Pro",
+                  desc: "For growing logistics teams needing advanced visibility.",
+                  priceUSD: 49, priceINR: 3999,
+                  features: ["Up to 10,000 shipments/mo", "Branded tracking page", "SMS & Email notifications", "API access", "Priority support"],
+                  popular: true
+                },
+                {
+                  name: "Enterprise",
+                  desc: "For high-volume operations requiring custom setups.",
+                  priceUSD: 199, priceINR: 15999,
+                  features: ["Unlimited shipments", "Custom carrier integrations", "Dedicated success manager", "99.99% uptime SLA", "Advanced analytics"],
+                  popular: false
+                }
+              ].map((plan, i) => (
+                <motion.div
+                  key={i} variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
+                  className={`bg-white rounded-[2.5rem] p-8 md:p-10 border ${plan.popular ? 'border-indigo-600 shadow-2xl shadow-indigo-600/20 relative lg:scale-105 z-10' : 'border-slate-200 shadow-xl shadow-slate-200/50 mt-0 lg:mt-4 mb-0 lg:mb-4'} flex flex-col`}
+                >
+                  {plan.popular && (
+                    <div className="absolute -top-4 left-0 right-0 flex justify-center">
+                      <span className="bg-indigo-600 text-white text-[11px] font-bold uppercase tracking-widest py-1.5 px-5 rounded-full shadow-lg shadow-indigo-600/30">Most Popular</span>
+                    </div>
+                  )}
+                  <h3 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight">{plan.name}</h3>
+                  <p className="text-[15px] text-slate-500 font-medium mb-8 min-h-[44px]">{plan.desc}</p>
+                  <div className="mb-8 flex items-baseline gap-2">
+                    <span className="text-5xl font-black text-slate-900 tracking-tight">
+                      {billingCurrency === "USD" ? `$${plan.priceUSD}` : `₹${plan.priceINR}`}
+                    </span>
+                    <span className="text-sm font-bold text-slate-400">/mo</span>
+                  </div>
+                  <div className="h-px w-full bg-slate-100 mb-8"></div>
+                  <ul className="space-y-5 mb-10 flex-1">
+                    {plan.features.map((feature, j) => (
+                      <li key={j} className="flex items-start gap-3">
+                        <CheckCircle2 className={`w-5 h-5 shrink-0 ${plan.popular ? 'text-indigo-600' : 'text-slate-400'}`} />
+                        <span className="text-[15px] font-semibold text-slate-700 leading-snug">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <button className={`w-full py-4 rounded-xl font-bold text-[15px] transition-all mt-auto ${plan.popular ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-xl shadow-indigo-600/20 hover:-translate-y-1' : 'bg-slate-50 text-slate-900 hover:bg-slate-100 border border-slate-200 hover:-translate-y-1'}`}>
+                    Get Started
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SECTION 7: CTA ────────────────────────────────────────────── */}
         <section className="py-24 bg-white relative overflow-hidden">
           <div className="container relative z-10 mx-auto px-6 max-w-5xl">
             <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
@@ -666,7 +750,7 @@ export default function LandingPage() {
         </section>
       </main>
 
-      {/* ── SECTION 7: FOOTER ────────────────────────────────────────── */}
+      {/* ── SECTION 8: FOOTER ────────────────────────────────────────── */}
       <footer className="bg-slate-50 border-t border-slate-200 py-12 pb-24 md:pb-12">
         <div className="container mx-auto px-6 max-w-6xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
@@ -676,7 +760,7 @@ export default function LandingPage() {
             © {new Date().getFullYear()} TransitIQ. All rights reserved.
           </p>
           <p className="text-sm font-semibold text-slate-400">
-            Built with Next.js & Tailwind
+
           </p>
         </div>
       </footer>

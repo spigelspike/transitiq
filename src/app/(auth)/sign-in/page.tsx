@@ -56,7 +56,7 @@ function SignInContent() {
   };
 
   return (
-    <AuthLayout title="Welcome back 👋" subtitle="Sign in to your account">
+    <AuthLayout title="Welcome back" subtitle="Sign in to your account">
       {/* Demo credentials banner */}
       <div className="flex items-start gap-3 rounded-2xl bg-cyan-50/50 border border-cyan-100 p-3 mb-6">
         <Lightbulb className="w-5 h-5 text-cyan-600 mt-0.5 flex-shrink-0" />
