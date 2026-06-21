@@ -91,13 +91,6 @@ The app uses a simulated auth flow. These credentials are pre-filled on the sign
 | Email    | `demo@transitiq.io` |
 | Password | `Demo@1234`        |
 
----
-
-## Mobile
-
-Built mobile-first. Bottom dock navigation, swipeable onboarding carousel, and viewport locking (`user-scalable=no`, `overflow-x-hidden`) to prevent the layout from breaking on iOS and Android.
-
----
 
 ## License
 
