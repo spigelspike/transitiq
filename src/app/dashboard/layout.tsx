@@ -60,7 +60,7 @@ function UserProfileMenu({ router, variant = "desktop" }: { router: ReturnType<t
       </div>
       <div className="h-px bg-slate-100 mx-1" />
       <button
-        onClick={() => { setOpen(false); router.push("/dashboard/profile"); }}
+        onClick={() => { setOpen(false); router.push("/dashboard/settings"); }}
         className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
       >
         <User className="w-4 h-4" /> Profile
