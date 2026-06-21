@@ -134,12 +134,14 @@ export default function ShipmentHealth() {
         </div>
 
         {/* Legend row */}
-        <div className="flex flex-wrap items-center justify-center gap-2">
+        <div className="grid grid-cols-3 gap-2">
           {pieData.map((item, i) => (
-            <div key={i} className="flex items-center gap-1.5 bg-slate-50 rounded-lg px-2.5 py-1.5 border border-slate-100 shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
-              <span className="text-[11px] font-medium text-slate-600 whitespace-nowrap">{item.name}</span>
-              <span className="text-[11px] font-bold text-slate-900 ml-0.5">{item.value}</span>
+            <div key={i} className="flex flex-col items-center justify-center bg-slate-50 rounded-lg py-2 px-1 border border-slate-100 text-center">
+              <div className="flex items-center gap-1.5 mb-1">
+                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                <span className="text-[10px] font-medium text-slate-600 tracking-tight leading-none">{item.name}</span>
+              </div>
+              <span className="text-xs font-bold text-slate-900 leading-none">{item.value}</span>
             </div>
           ))}
         </div>
