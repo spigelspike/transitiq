@@ -7,6 +7,9 @@ import { Eye, EyeOff, Loader2, Mail, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AuthLayout from "@/components/auth/AuthLayout";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 function getPasswordStrength(password: string) {
   let score = 0;
@@ -21,54 +24,65 @@ function getPasswordStrength(password: string) {
   return { score, label: labels[score] || "", color: colors[score] || "" };
 }
 
+const signUpSchema = z.object({
+  name: z.string().min(1, "Full name is required"),
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  confirmPassword: z.string().min(1, "Please confirm your password"),
+  agreed: z.boolean().refine(val => val === true, "You must agree to the terms"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
+
+type SignUpValues = z.infer<typeof signUpSchema>;
+
 export default function SignUpPage() {
   const router = useRouter();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [agreed, setAgreed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const strength = useMemo(() => getPasswordStrength(password), [password]);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<SignUpValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      agreed: false,
+    },
+  });
 
-  const validate = () => {
-    const errs: Record<string, string> = {};
-    if (!name.trim()) errs.name = "Full name is required";
-    if (!email) errs.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = "Invalid email format";
-    if (!password) errs.password = "Password is required";
-    else if (password.length < 8) errs.password = "Password must be at least 8 characters";
-    else if (strength.score < 2) errs.password = "Password is too weak";
-    if (!confirmPassword) errs.confirmPassword = "Please confirm your password";
-    else if (password !== confirmPassword) errs.confirmPassword = "Passwords do not match";
-    if (!agreed) errs.agreed = "You must agree to the terms";
-    setFieldErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
+  const watchPassword = watch("password");
+  const strength = useMemo(() => getPasswordStrength(watchPassword || ""), [watchPassword]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: SignUpValues) => {
     setError("");
-    if (!validate()) return;
+    if (strength.score < 2) {
+      setError("Password is too weak. Please use a stronger password.");
+      return;
+    }
 
     setIsLoading(true);
     try {
       const res = await fetch("/api/auth/sign-up", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, name }),
+        body: JSON.stringify({ email: data.email, password: data.password, name: data.name }),
       });
-      const data = await res.json();
-      if (data.success) {
+      const resData = await res.json();
+      if (resData.success) {
         router.push("/dashboard");
       } else {
-        setError(data.message || "Failed to create account.");
+        setError(resData.message || "Failed to create account.");
       }
     } catch {
       setError("Something went wrong. Please try again.");
@@ -79,20 +93,20 @@ export default function SignUpPage() {
 
   return (
     <AuthLayout title="Create your account" subtitle="Join thousands of teams shipping smarter">
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         {/* Full name */}
         <div>
           <label htmlFor="name" className="text-[13px] font-bold text-slate-700 mb-1 block">Full name</label>
           <div className="relative">
             <Input
-              id="name" value={name}
-              onChange={(e) => { setName(e.target.value); setFieldErrors((p) => ({ ...p, name: "" })); }}
+              id="name"
+              {...register("name")}
               placeholder="John Doe"
-              className={`h-10 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${fieldErrors.name ? "border-red-300 focus-visible:ring-red-500" : ""}`}
+              className={`h-10 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${errors.name ? "border-red-300 focus-visible:ring-red-500" : ""}`}
             />
             <User className="absolute right-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400" />
           </div>
-          {fieldErrors.name && <p className="text-xs text-red-500 mt-1">{fieldErrors.name}</p>}
+          {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
         </div>
 
         {/* Email */}
@@ -100,14 +114,14 @@ export default function SignUpPage() {
           <label htmlFor="signup-email" className="text-[13px] font-bold text-slate-700 mb-1 block">Email address</label>
           <div className="relative">
             <Input
-              id="signup-email" type="email" value={email}
-              onChange={(e) => { setEmail(e.target.value); setFieldErrors((p) => ({ ...p, email: "" })); }}
+              id="signup-email" type="email"
+              {...register("email")}
               placeholder="john.doe@company.com"
-              className={`h-10 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${fieldErrors.email ? "border-red-300 focus-visible:ring-red-500" : ""}`}
+              className={`h-10 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${errors.email ? "border-red-300 focus-visible:ring-red-500" : ""}`}
             />
             <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400" />
           </div>
-          {fieldErrors.email && <p className="text-xs text-red-500 mt-1">{fieldErrors.email}</p>}
+          {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
         </div>
 
         {/* Password */}
@@ -115,20 +129,20 @@ export default function SignUpPage() {
           <label htmlFor="signup-password" className="text-[13px] font-bold text-slate-700 mb-1 block">Password</label>
           <div className="relative">
             <Input
-              id="signup-password" type={showPassword ? "text" : "password"} value={password}
-              onChange={(e) => { setPassword(e.target.value); setFieldErrors((p) => ({ ...p, password: "" })); }}
+              id="signup-password" type={showPassword ? "text" : "password"}
+              {...register("password")}
               placeholder="••••••••"
-              className={`h-10 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${fieldErrors.password ? "border-red-300 focus-visible:ring-red-500" : ""}`}
+              className={`h-10 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${errors.password ? "border-red-300 focus-visible:ring-red-500" : ""}`}
             />
             <button type="button" onClick={() => setShowPassword(!showPassword)}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
               {showPassword ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
             </button>
           </div>
-          {fieldErrors.password && <p className="text-xs text-red-500 mt-1">{fieldErrors.password}</p>}
+          {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
 
           {/* Strength bar */}
-          {password.length > 0 && (
+          {(watchPassword || "").length > 0 && (
             <div className="mt-1.5">
               <div className="flex gap-1">
                 {[1, 2, 3, 4].map((i) => (
@@ -149,23 +163,23 @@ export default function SignUpPage() {
           <label htmlFor="confirm-password" className="text-[13px] font-bold text-slate-700 mb-1 block">Confirm password</label>
           <div className="relative">
             <Input
-              id="confirm-password" type={showConfirm ? "text" : "password"} value={confirmPassword}
-              onChange={(e) => { setConfirmPassword(e.target.value); setFieldErrors((p) => ({ ...p, confirmPassword: "" })); }}
+              id="confirm-password" type={showConfirm ? "text" : "password"}
+              {...register("confirmPassword")}
               placeholder="••••••••"
-              className={`h-10 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${fieldErrors.confirmPassword ? "border-red-300 focus-visible:ring-red-500" : ""}`}
+              className={`h-10 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${errors.confirmPassword ? "border-red-300 focus-visible:ring-red-500" : ""}`}
             />
             <button type="button" onClick={() => setShowConfirm(!showConfirm)}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
               {showConfirm ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
             </button>
           </div>
-          {fieldErrors.confirmPassword && <p className="text-xs text-red-500 mt-1">{fieldErrors.confirmPassword}</p>}
+          {errors.confirmPassword && <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>}
         </div>
 
         {/* Terms */}
         <label className="flex items-start gap-2.5 cursor-pointer pt-0.5">
-          <input type="checkbox" checked={agreed}
-            onChange={(e) => { setAgreed(e.target.checked); setFieldErrors((p) => ({ ...p, agreed: "" })); }}
+          <input type="checkbox"
+            {...register("agreed")}
             className="w-4 h-4 rounded border-slate-300 accent-[#4F46E5] mt-0.5 cursor-pointer"
           />
           <span className="text-[12px] text-slate-600 leading-tight">
@@ -175,7 +189,7 @@ export default function SignUpPage() {
             <Link href="#" className="font-bold text-[#4F46E5] hover:text-indigo-700 transition-colors">Privacy Policy</Link>
           </span>
         </label>
-        {fieldErrors.agreed && <p className="text-xs text-red-500 -mt-2">{fieldErrors.agreed}</p>}
+        {errors.agreed && <p className="text-xs text-red-500 -mt-2">{errors.agreed.message}</p>}
 
         {/* Error */}
         {error && (

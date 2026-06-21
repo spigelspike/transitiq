@@ -7,46 +7,54 @@ import { Eye, EyeOff, Loader2, Mail, Lightbulb } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AuthLayout from "@/components/auth/AuthLayout";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const signInSchema = z.object({
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
+  password: z.string().min(1, "Password is required"),
+  rememberMe: z.boolean().optional(),
+});
+
+type SignInValues = z.infer<typeof signInSchema>;
 
 function SignInContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/dashboard";
 
-  const [email, setEmail] = useState("demo@transitiq.io");
-  const [password, setPassword] = useState("Demo@1234");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
 
-  const validate = () => {
-    const errs: { email?: string; password?: string } = {};
-    if (!email) errs.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = "Invalid email format";
-    if (!password) errs.password = "Password is required";
-    setFieldErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInValues>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "demo@transitiq.io",
+      password: "Demo@1234",
+      rememberMe: true,
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: SignInValues) => {
     setError("");
-    if (!validate()) return;
-
     setIsLoading(true);
     try {
       const res = await fetch("/api/auth/sign-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(data),
       });
-      const data = await res.json();
-      if (data.success) {
+      const resData = await res.json();
+      if (resData.success) {
         router.push(from);
       } else {
-        setError(data.message || "Invalid email or password. Try demo credentials.");
+        setError(resData.message || "Invalid email or password. Try demo credentials.");
       }
     } catch {
       setError("Something went wrong. Please try again.");
@@ -68,7 +76,7 @@ function SignInContent() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Email */}
         <div>
           <label htmlFor="email" className="text-[13px] font-bold text-slate-700 mb-1.5 block">
@@ -78,14 +86,13 @@ function SignInContent() {
             <Input
               id="email"
               type="email"
-              value={email}
-              onChange={(e) => { setEmail(e.target.value); setFieldErrors((p) => ({ ...p, email: undefined })); }}
+              {...register("email")}
               placeholder="you@company.com"
-              className={`h-11 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${fieldErrors.email ? "border-red-300 focus-visible:ring-red-500" : ""}`}
+              className={`h-11 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${errors.email ? "border-red-300 focus-visible:ring-red-500" : ""}`}
             />
             <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400" />
           </div>
-          {fieldErrors.email && <p className="text-xs text-red-500 mt-1.5">{fieldErrors.email}</p>}
+          {errors.email && <p className="text-xs text-red-500 mt-1.5">{errors.email.message}</p>}
         </div>
 
         {/* Password */}
@@ -97,10 +104,9 @@ function SignInContent() {
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => { setPassword(e.target.value); setFieldErrors((p) => ({ ...p, password: undefined })); }}
+              {...register("password")}
               placeholder="••••••••"
-              className={`h-11 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${fieldErrors.password ? "border-red-300 focus-visible:ring-red-500" : ""}`}
+              className={`h-11 rounded-xl border-slate-200 bg-white pr-10 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 ${errors.password ? "border-red-300 focus-visible:ring-red-500" : ""}`}
             />
             <button
               type="button"
@@ -110,7 +116,7 @@ function SignInContent() {
               {showPassword ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
             </button>
           </div>
-          {fieldErrors.password && <p className="text-xs text-red-500 mt-1.5">{fieldErrors.password}</p>}
+          {errors.password && <p className="text-xs text-red-500 mt-1.5">{errors.password.message}</p>}
         </div>
 
         {/* Remember me + Forgot password */}
@@ -119,8 +125,7 @@ function SignInContent() {
             <div className="relative flex items-center justify-center">
               <input
                 type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
+                {...register("rememberMe")}
                 className="w-4 h-4 rounded border-slate-300 accent-[#4F46E5] cursor-pointer"
               />
             </div>

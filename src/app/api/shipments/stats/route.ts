@@ -45,6 +45,16 @@ export async function GET() {
     createdAt: s.createdAt,
     carrier: s.carrier,
   }));
+  // Simulated 7-day trend data for the area chart
+  const trendData = [
+    { date: "May 12", value: 89 },
+    { date: "May 13", value: 90 },
+    { date: "May 14", value: 93 },
+    { date: "May 15", value: 92 },
+    { date: "May 16", value: 96 },
+    { date: "May 17", value: 95 },
+    { date: "May 18", value: 98 },
+  ];
 
   return ok({
     total,
@@ -53,5 +63,6 @@ export async function GET() {
     avgDeliveryDays,
     carrierPerformance,
     recentActivity,
+    trendData,
   });
 }

@@ -4,23 +4,83 @@ import React from "react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { Info, ArrowUpRight, Truck } from "lucide-react";
 
-const trendData = [
-  { date: "May 12", value: 89 },
-  { date: "May 13", value: 90 },
-  { date: "May 14", value: 93 },
-  { date: "May 15", value: 92 },
-  { date: "May 16", value: 96 },
-  { date: "May 17", value: 95 },
-  { date: "May 18", value: 98 },
-];
-
-const pieData = [
-  { name: "Delivered", value: 48, color: "#1D4ED8" }, // Blue-700
-  { name: "In Transit", value: 10, color: "#60A5FA" }, // Blue-400
-  { name: "Exceptions", value: 2, color: "#EF4444" }, // Red-500
-];
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ShipmentHealth() {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['shipmentStats'],
+    queryFn: async () => {
+      const res = await fetch("/api/shipments/stats");
+      if (!res.ok) throw new Error("Failed to fetch stats");
+      return res.json();
+    },
+    staleTime: 30000,
+  });
+
+  if (isLoading || !data) {
+    return (
+      <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-6 w-full">
+        <div className="flex items-center gap-1.5 mb-4 md:mb-6">
+          <Skeleton className="h-6 w-36" />
+          <Skeleton className="w-4 h-4 rounded-full" />
+        </div>
+        
+        {/* Mobile Skeleton */}
+        <div className="md:hidden space-y-4">
+          <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+            <div className="space-y-1.5">
+              <Skeleton className="h-8 w-24" />
+              <Skeleton className="h-3 w-20" />
+            </div>
+            <Skeleton className="h-5 w-12 rounded-lg" />
+          </div>
+          <Skeleton className="h-[120px] w-full rounded-lg" />
+          <div className="flex gap-2">
+            <Skeleton className="h-8 flex-1 rounded-lg" />
+            <Skeleton className="h-8 flex-1 rounded-lg" />
+            <Skeleton className="h-8 flex-1 rounded-lg" />
+          </div>
+        </div>
+
+        {/* Desktop Skeleton */}
+        <div className="hidden md:flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div className="flex flex-col shrink-0 min-w-[140px] space-y-2">
+            <Skeleton className="h-12 w-28 mb-1" />
+            <Skeleton className="h-4 w-24 mb-6" />
+            <Skeleton className="h-4 w-32" />
+          </div>
+          <div className="flex-1 h-[140px] w-full min-w-[300px]">
+            <Skeleton className="h-full w-full rounded-xl" />
+          </div>
+          <div className="flex items-center gap-6 shrink-0 lg:w-[320px] justify-end">
+            <Skeleton className="w-[120px] h-[120px] rounded-full shrink-0" />
+            <div className="flex flex-col gap-3 w-full max-w-[160px]">
+              <Skeleton className="h-5 w-full" />
+              <Skeleton className="h-5 w-full" />
+              <Skeleton className="h-5 w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const stats = data.data;
+  const trendData = stats?.trendData || [];
+  const successRate = stats?.successRate?.toFixed(1) || "0.0";
+  
+  // Compute pieData dynamically
+  const delivered = stats?.byStatus?.delivered || 0;
+  const inTransit = (stats?.byStatus?.in_transit || 0) + (stats?.byStatus?.out_for_delivery || 0);
+  const exceptions = (stats?.byStatus?.failed || 0) + (stats?.byStatus?.returned || 0);
+  
+  const pieData = [
+    { name: "Delivered", value: delivered, color: "#1D4ED8" },
+    { name: "In Transit", value: inTransit, color: "#60A5FA" },
+    { name: "Exceptions", value: exceptions, color: "#EF4444" },
+  ];
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-6 w-full">
       {/* Header */}
@@ -34,7 +94,7 @@ export default function ShipmentHealth() {
         {/* KPI card */}
         <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
           <div>
-            <span className="text-3xl font-bold text-blue-600 tracking-tight">96.7%</span>
+            <span className="text-3xl font-bold text-blue-600 tracking-tight">{successRate}%</span>
             <p className="text-xs font-medium text-slate-500 mt-0.5">On-time delivery</p>
           </div>
           <div className="flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">
@@ -89,7 +149,7 @@ export default function ShipmentHealth() {
       <div className="hidden md:flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         {/* Left Stats */}
         <div className="flex flex-col shrink-0 min-w-[140px]">
-          <span className="text-5xl font-bold text-blue-600 tracking-tight mb-1">96.7%</span>
+          <span className="text-5xl font-bold text-blue-600 tracking-tight mb-1">{successRate}%</span>
           <span className="text-sm font-medium text-slate-500 mb-6">On-time delivery</span>
           
           <div className="flex items-center gap-1.5 text-sm font-semibold text-emerald-600">
