@@ -387,33 +387,33 @@ export default function LandingPage() {
 
               {/* Row 1: Real-Time Tracking (Spans Full Width) */}
               <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
-                className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 md:p-12 flex flex-col lg:flex-row gap-12 overflow-hidden relative"
+                className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-3xl md:rounded-[2rem] p-6 md:p-12 flex flex-col lg:flex-row gap-8 md:gap-12 overflow-hidden relative"
               >
                 {/* Left side text */}
                 <div className="lg:w-1/3 flex flex-col justify-center z-10">
-                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-6 flex items-center gap-2">
+                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-4 md:mb-6 flex items-center gap-2">
                     <Truck className="w-4 h-4" /> Real-time tracking
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">Know every shipment at every moment</h3>
-                  <p className="text-slate-500 mb-8 text-base font-medium leading-relaxed">Get live status updates every 30 seconds from all your carriers in one place.</p>
-                  <ul className="space-y-4 mb-10">
-                    <li className="flex items-center gap-3 text-[15px] text-slate-700 font-bold">
+                  <h3 className="text-2xl md:text-4xl font-extrabold text-slate-900 mb-4 md:mb-6 tracking-tight leading-tight">Know every shipment at every moment</h3>
+                  <p className="text-slate-500 mb-6 md:mb-8 text-sm md:text-base font-medium leading-relaxed">Get live status updates every 30 seconds from all your carriers in one place.</p>
+                  <ul className="space-y-3 md:space-y-4 mb-8 md:mb-10">
+                    <li className="flex items-center gap-3 text-sm md:text-[15px] text-slate-700 font-bold">
                       <CheckCircle2 className="w-5 h-5 text-indigo-500" /> 30s auto-updates
                     </li>
-                    <li className="flex items-center gap-3 text-[15px] text-slate-700 font-bold">
+                    <li className="flex items-center gap-3 text-sm md:text-[15px] text-slate-700 font-bold">
                       <CheckCircle2 className="w-5 h-5 text-indigo-500" /> Exception & delay alerts
                     </li>
-                    <li className="flex items-center gap-3 text-[15px] text-slate-700 font-bold">
+                    <li className="flex items-center gap-3 text-sm md:text-[15px] text-slate-700 font-bold">
                       <CheckCircle2 className="w-5 h-5 text-indigo-500" /> Delivery timeline view
                     </li>
                   </ul>
-                  <Link href="/sign-in" className="inline-flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors self-start">
+                  <Link href="/sign-in" className="inline-flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold py-3 px-6 rounded-xl transition-colors self-start text-sm md:text-base">
                     Explore tracking <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
 
                 {/* Right side mock UI (Shipments table) */}
-                <div className="lg:w-2/3 bg-white border border-slate-100 rounded-2xl shadow-[0_0_40px_-10px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col text-sm z-10">
+                <div className="hidden md:flex lg:w-2/3 bg-white border border-slate-100 rounded-2xl shadow-[0_0_40px_-10px_rgba(0,0,0,0.05)] overflow-hidden flex-col text-sm z-10">
                   <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-slate-50/50 gap-4">
                     <div className="font-bold text-slate-900">Shipments</div>
                     <div className="flex gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
@@ -439,7 +439,7 @@ export default function LandingPage() {
                       <div className="text-xl font-black text-slate-900 flex items-center gap-2">460 <span className="text-[10px] text-red-500 bg-red-50 px-1.5 py-0.5 rounded hidden xl:inline-block">↑ 6.3%</span></div>
                     </div>
                   </div>
-                  <div className="p-0 overflow-x-auto">
+                  <div className="p-0 overflow-x-auto hidden sm:block">
                     <table className="w-full text-left text-xs text-slate-600 min-w-[600px]">
                       <thead className="bg-slate-50/50 text-slate-400 font-semibold border-b border-slate-100">
                         <tr>
@@ -481,19 +481,22 @@ export default function LandingPage() {
               </motion.div>
 
               {/* Row 2: 4 Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
 
                 {/* Card 1: Carrier Analytics */}
                 <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                  className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 flex flex-col"
+                  className="bg-white border border-slate-200/80 shadow-sm md:shadow-xl md:shadow-slate-200/40 rounded-2xl md:rounded-[2rem] p-5 md:p-8 flex flex-row md:flex-col gap-4 md:gap-0 items-start md:items-stretch"
                 >
-                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
-                    <BarChart3 className="w-4 h-4" /> Carrier Analytics
+                  <div className="bg-indigo-50 p-2.5 rounded-xl md:hidden shrink-0"><BarChart3 className="w-5 h-5 text-indigo-600" /></div>
+                  <div className="flex-1">
+                    <div className="hidden md:flex text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 items-center gap-2">
+                      <BarChart3 className="w-4 h-4" /> Carrier Analytics
+                    </div>
+                    <h4 className="text-base md:text-2xl font-extrabold text-slate-900 mb-1 md:mb-3 tracking-tight leading-tight md:whitespace-pre-line">{"Compare.\nAnalyze.\nOptimize."}</h4>
+                    <p className="text-slate-500 mb-0 md:mb-8 text-xs md:text-sm font-medium">Track SLA performance, on-time delivery, and cost efficiency across all your carriers.</p>
                   </div>
-                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">Compare.<br />Analyze.<br />Optimize.</h4>
-                  <p className="text-slate-500 mb-8 text-sm font-medium">Track SLA performance, on-time delivery, and cost efficiency across all your carriers.</p>
 
-                  <div className="mt-auto bg-slate-50 rounded-xl p-4 border border-slate-100 relative h-36 overflow-hidden flex flex-col justify-end group">
+                  <div className="hidden md:flex mt-auto bg-slate-50 rounded-xl p-4 border border-slate-100 relative h-36 overflow-hidden flex-col justify-end group">
                     <div className="absolute top-4 left-4">
                       <div className="text-[10px] font-bold text-slate-400 uppercase">On-time Delivery</div>
                       <div className="text-xl font-black text-slate-900 flex items-center gap-1">92.6% <span className="text-[10px] text-emerald-500 bg-emerald-50 px-1 py-0.5 rounded">↑ 8.7%</span></div>
@@ -510,15 +513,18 @@ export default function LandingPage() {
 
                 {/* Card 2: AI Insights */}
                 <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                  className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 flex flex-col"
+                  className="bg-white border border-slate-200/80 shadow-sm md:shadow-xl md:shadow-slate-200/40 rounded-2xl md:rounded-[2rem] p-5 md:p-8 flex flex-row md:flex-col gap-4 md:gap-0 items-start md:items-stretch"
                 >
-                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4" /> AI Insights
+                  <div className="bg-indigo-50 p-2.5 rounded-xl md:hidden shrink-0"><Sparkles className="w-5 h-5 text-indigo-600" /></div>
+                  <div className="flex-1">
+                    <div className="hidden md:flex text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 items-center gap-2">
+                      <Sparkles className="w-4 h-4" /> AI Insights
+                    </div>
+                    <h4 className="text-base md:text-2xl font-extrabold text-slate-900 mb-1 md:mb-3 tracking-tight leading-tight">AI that spots issues early</h4>
+                    <p className="text-slate-500 mb-0 md:mb-8 text-xs md:text-sm font-medium">Predict delays, flag exceptions, and get actionable recommendations with AI.</p>
                   </div>
-                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">AI that spots issues early</h4>
-                  <p className="text-slate-500 mb-8 text-sm font-medium">Predict delays, flag exceptions, and get actionable recommendations with AI.</p>
 
-                  <div className="mt-auto bg-white border border-red-100 shadow-[0_4px_20px_-4px_rgba(239,68,68,0.1)] rounded-xl p-5 relative">
+                  <div className="hidden md:flex mt-auto bg-white border border-red-100 shadow-[0_4px_20px_-4px_rgba(239,68,68,0.1)] rounded-xl p-5 relative">
                     <div className="flex items-start gap-3">
                       <div className="bg-red-50 p-2 rounded-lg text-red-500 shrink-0"><AlertCircle className="w-4 h-4" /></div>
                       <div>
@@ -532,15 +538,18 @@ export default function LandingPage() {
 
                 {/* Card 3: Team Workspace */}
                 <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                  className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 flex flex-col"
+                  className="bg-white border border-slate-200/80 shadow-sm md:shadow-xl md:shadow-slate-200/40 rounded-2xl md:rounded-[2rem] p-5 md:p-8 flex flex-row md:flex-col gap-4 md:gap-0 items-start md:items-stretch"
                 >
-                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
-                    <Users2 className="w-4 h-4" /> Team Workspace
+                  <div className="bg-indigo-50 p-2.5 rounded-xl md:hidden shrink-0"><Users2 className="w-5 h-5 text-indigo-600" /></div>
+                  <div className="flex-1">
+                    <div className="hidden md:flex text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 items-center gap-2">
+                      <Users2 className="w-4 h-4" /> Team Workspace
+                    </div>
+                    <h4 className="text-base md:text-2xl font-extrabold text-slate-900 mb-1 md:mb-3 tracking-tight leading-tight">Collaborate with your team</h4>
+                    <p className="text-slate-500 mb-0 md:mb-8 text-xs md:text-sm font-medium">Role-based access, shipment notes, and real-time updates keep everyone aligned.</p>
                   </div>
-                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">Collaborate with your team</h4>
-                  <p className="text-slate-500 mb-8 text-sm font-medium">Role-based access, shipment notes, and real-time updates keep everyone aligned.</p>
 
-                  <div className="mt-auto bg-slate-50 rounded-xl p-5 border border-slate-100 flex flex-col gap-4">
+                  <div className="hidden md:flex mt-auto bg-slate-50 rounded-xl p-5 border border-slate-100 flex-col gap-4">
                     <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Recent Activity</div>
                     <div className="flex items-center gap-3">
                       <div className="w-6 h-6 rounded-full bg-blue-100 text-[9px] flex items-center justify-center font-bold text-blue-700 shrink-0">SJ</div>
@@ -559,15 +568,18 @@ export default function LandingPage() {
 
                 {/* Card 4: Multi-Carrier Unified */}
                 <motion.div variants={fadeUpVariant} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                  className="bg-white border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 flex flex-col"
+                  className="bg-white border border-slate-200/80 shadow-sm md:shadow-xl md:shadow-slate-200/40 rounded-2xl md:rounded-[2rem] p-5 md:p-8 flex flex-row md:flex-col gap-4 md:gap-0 items-start md:items-stretch"
                 >
-                  <div className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 flex items-center gap-2">
-                    <Package className="w-4 h-4" /> Multi-Carrier Unified
+                  <div className="bg-indigo-50 p-2.5 rounded-xl md:hidden shrink-0"><Package className="w-5 h-5 text-indigo-600" /></div>
+                  <div className="flex-1">
+                    <div className="hidden md:flex text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-5 items-center gap-2">
+                      <Package className="w-4 h-4" /> Multi-Carrier Unified
+                    </div>
+                    <h4 className="text-base md:text-2xl font-extrabold text-slate-900 mb-1 md:mb-3 tracking-tight leading-tight md:whitespace-pre-line">{"One API.\nAll major carriers."}</h4>
+                    <p className="text-slate-500 mb-0 md:mb-8 text-xs md:text-sm font-medium">Connect with FedEx, UPS, DHL, USPS, BlueDart and more seamlessly.</p>
                   </div>
-                  <h4 className="text-2xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">One API.<br />All major carriers.</h4>
-                  <p className="text-slate-500 mb-8 text-sm font-medium">Connect with FedEx, UPS, DHL, USPS, BlueDart and more seamlessly.</p>
 
-                  <div className="mt-auto grid grid-cols-2 gap-3">
+                  <div className="hidden md:grid mt-auto grid-cols-2 gap-3">
                     <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/fedex.svg" className="h-3.5" alt="FedEx" /></div>
                     <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/ups.svg" className="h-5" alt="UPS" /></div>
                     <div className="bg-slate-50 border border-slate-100 rounded-xl h-14 flex items-center justify-center p-3 hover:bg-white hover:border-slate-200 transition-colors"><img src="/logos/dhl.svg" className="h-3" alt="DHL" /></div>

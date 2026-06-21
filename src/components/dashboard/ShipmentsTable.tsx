@@ -130,6 +130,52 @@ const ShipmentRow = React.memo(({ shipment, onCopy, onClick }: { shipment: Shipm
 });
 ShipmentRow.displayName = "ShipmentRow";
 
+// Mobile card view for each shipment
+const MobileShipmentCard = React.memo(({ shipment, onClick }: { shipment: Shipment; onClick: () => void }) => {
+  const s = getStatusBadge(shipment.status);
+  const estDate = new Date(shipment.estimatedDelivery);
+  const isOverdue = shipment.status !== "delivered" && shipment.status !== "returned" && isPast(estDate) && !isToday(estDate);
+
+  return (
+    <div onClick={onClick} className="bg-white border border-slate-100 rounded-xl p-4 active:bg-slate-50 transition-colors cursor-pointer">
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-bold text-slate-900 truncate">{shipment.recipient}</p>
+          <p className="text-xs text-slate-500 font-medium mt-0.5">{shipment.destination.city}, {shipment.destination.state}</p>
+        </div>
+        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold shrink-0 ${s.bg} ${s.text}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
+          {s.label}
+        </span>
+      </div>
+      <div className="flex items-center justify-between gap-2">
+        <span className="font-mono text-[11px] font-semibold text-slate-500 truncate">{shipment.trackingNumber}</span>
+        <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${getCarrierColor(shipment.carrier.name)}`}>
+          {shipment.carrier.name}
+        </span>
+      </div>
+      <div className="flex items-center justify-between mt-2.5 pt-2.5 border-t border-slate-50">
+        <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+          <span className="truncate max-w-[70px]">{shipment.origin.city}</span>
+          <ArrowRight className="w-3 h-3 text-slate-300 shrink-0" />
+          <span className="truncate max-w-[70px]">{shipment.destination.city}</span>
+        </div>
+        <div className="text-xs font-semibold">
+          {shipment.status === "delivered" && shipment.actualDelivery ? (
+            <span className="text-emerald-600">{format(new Date(shipment.actualDelivery), "MMM d")}</span>
+          ) : (
+            <span className={isOverdue ? "text-red-600" : "text-slate-600"}>
+              ETA {format(estDate, "MMM d")}
+              {isOverdue && <AlertCircle className="w-3 h-3 text-red-500 inline ml-1" />}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+});
+MobileShipmentCard.displayName = "MobileShipmentCard";
+
 export default function ShipmentsTable() {
   const router = useRouter();
   const pathname = usePathname();
@@ -270,8 +316,8 @@ export default function ShipmentsTable() {
       </div>
 
       {/* Controls Row */}
-      <div className="p-4 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-slate-50/50">
-        <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+      <div className="p-3 md:p-4 border-b border-slate-100 flex flex-col gap-3 bg-slate-50/50">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full">
           {/* Search Input */}
           <div className="relative w-full sm:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -286,7 +332,7 @@ export default function ShipmentsTable() {
               className="w-full h-9 pl-9 pr-14 rounded-lg border border-slate-200 bg-white shadow-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-sm font-medium"
             />
             {!searchFocused && !searchInput && (
-              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
+              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none hidden sm:block">
                 <kbd className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 font-mono text-[10px] font-bold">Press /</kbd>
               </div>
             )}
@@ -315,11 +361,10 @@ export default function ShipmentsTable() {
               <SelectItem value="returned">Returned</SelectItem>
             </SelectContent>
           </Select>
-        </div>
 
-        <div className="flex items-center gap-3">
+          {/* Sort */}
           <Select value={sortBy} onValueChange={(v) => updateUrlParams({ sortBy: v, order: "desc", page: 1 })}>
-            <SelectTrigger className="w-40 h-9 font-medium bg-white border-slate-200 text-sm">
+            <SelectTrigger className="w-full sm:w-40 h-9 font-medium bg-white border-slate-200 text-sm">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -329,14 +374,11 @@ export default function ShipmentsTable() {
               <SelectItem value="estimatedDelivery">Delivery date</SelectItem>
             </SelectContent>
           </Select>
-          <button className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors border border-transparent hover:border-slate-200 hidden sm:flex">
-            <Columns className="w-4 h-4" />
-          </button>
         </div>
       </div>
 
       {/* Table Content */}
-      <div className="overflow-x-auto min-h-[400px]">
+      <div className="min-h-[300px] md:min-h-[400px]">
         {isError ? (
           <div className="flex flex-col items-center justify-center h-64 text-center">
             <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mb-4">
@@ -352,41 +394,59 @@ export default function ShipmentsTable() {
             </button>
           </div>
         ) : isFetching ? (
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent border-b-slate-100">
-                <TableHead className="w-48"><Skeleton className="h-4 w-24" /></TableHead>
-                <TableHead className="w-48"><Skeleton className="h-4 w-20" /></TableHead>
-                <TableHead className="w-32"><Skeleton className="h-4 w-16" /></TableHead>
-                <TableHead className="w-48"><Skeleton className="h-4 w-32" /></TableHead>
-                <TableHead className="w-44"><Skeleton className="h-4 w-24" /></TableHead>
-                <TableHead className="w-36"><Skeleton className="h-4 w-24" /></TableHead>
-                <TableHead className="w-28"><Skeleton className="h-4 w-16" /></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {[...Array(10)].map((_, i) => (
-                <TableRow key={i} className="border-b-slate-50 hover:bg-transparent">
-                  <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                  <TableCell>
-                    <Skeleton className="h-4 w-28 mb-1.5" />
-                    <Skeleton className="h-3 w-20" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-6 w-16 rounded-full mb-1.5" />
-                    <Skeleton className="h-3 w-24" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-4 w-36 mb-1.5" />
-                    <Skeleton className="h-3 w-16" />
-                  </TableCell>
-                  <TableCell><Skeleton className="h-6 w-24 rounded-full" /></TableCell>
-                  <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                  <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                </TableRow>
+          <>
+            {/* Mobile skeleton */}
+            <div className="md:hidden p-4 space-y-3">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="border border-slate-100 rounded-xl p-4 space-y-3">
+                  <div className="flex justify-between">
+                    <Skeleton className="h-4 w-28" />
+                    <Skeleton className="h-5 w-20 rounded-full" />
+                  </div>
+                  <Skeleton className="h-3 w-40" />
+                  <Skeleton className="h-3 w-32" />
+                </div>
               ))}
-            </TableBody>
-          </Table>
+            </div>
+            {/* Desktop skeleton */}
+            <div className="hidden md:block overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-transparent border-b-slate-100">
+                    <TableHead className="w-48"><Skeleton className="h-4 w-24" /></TableHead>
+                    <TableHead className="w-48"><Skeleton className="h-4 w-20" /></TableHead>
+                    <TableHead className="w-32"><Skeleton className="h-4 w-16" /></TableHead>
+                    <TableHead className="w-48"><Skeleton className="h-4 w-32" /></TableHead>
+                    <TableHead className="w-44"><Skeleton className="h-4 w-24" /></TableHead>
+                    <TableHead className="w-36"><Skeleton className="h-4 w-24" /></TableHead>
+                    <TableHead className="w-28"><Skeleton className="h-4 w-16" /></TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {[...Array(10)].map((_, i) => (
+                    <TableRow key={i} className="border-b-slate-50 hover:bg-transparent">
+                      <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-28 mb-1.5" />
+                        <Skeleton className="h-3 w-20" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-6 w-16 rounded-full mb-1.5" />
+                        <Skeleton className="h-3 w-24" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-36 mb-1.5" />
+                        <Skeleton className="h-3 w-16" />
+                      </TableCell>
+                      <TableCell><Skeleton className="h-6 w-24 rounded-full" /></TableCell>
+                      <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                      <TableCell><Skeleton className="h-4 w-16" /></TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </>
         ) : shipments.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center px-4">
             <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
@@ -410,64 +470,76 @@ export default function ShipmentsTable() {
             )}
           </div>
         ) : (
-          <Table>
-            <TableHeader className="bg-slate-50/50">
-              <TableRow className="hover:bg-transparent border-b-slate-100">
-                <TableHead 
-                  className="w-48 cursor-pointer hover:text-slate-900 transition-colors"
-                  onClick={() => handleSort("trackingNumber")}
-                >
-                  <div className="flex items-center gap-1 font-bold">
-                    Tracking #
-                    {sortBy === "trackingNumber" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
-                  </div>
-                </TableHead>
-                <TableHead 
-                  className="w-48 cursor-pointer hover:text-slate-900 transition-colors font-bold"
-                  onClick={() => handleSort("recipient")}
-                >
-                  <div className="flex items-center gap-1">
-                    Recipient
-                    {sortBy === "recipient" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
-                  </div>
-                </TableHead>
-                <TableHead className="w-32 font-bold">Carrier</TableHead>
-                <TableHead className="w-48 font-bold">Route</TableHead>
-                <TableHead 
-                  className="w-44 cursor-pointer hover:text-slate-900 transition-colors font-bold"
-                  onClick={() => handleSort("status")}
-                >
-                  <div className="flex items-center gap-1">
-                    Status
-                    {sortBy === "status" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
-                  </div>
-                </TableHead>
-                <TableHead 
-                  className="w-36 cursor-pointer hover:text-slate-900 transition-colors font-bold"
-                  onClick={() => handleSort("estimatedDelivery")}
-                >
-                  <div className="flex items-center gap-1">
-                    Est. Delivery
-                    {sortBy === "estimatedDelivery" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
-                  </div>
-                </TableHead>
-                <TableHead 
-                  className="w-28 cursor-pointer hover:text-slate-900 transition-colors font-bold"
-                  onClick={() => handleSort("createdAt")}
-                >
-                  <div className="flex items-center gap-1">
-                    Created
-                    {sortBy === "createdAt" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
-                  </div>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+          <>
+            {/* Mobile card list */}
+            <div className="md:hidden p-3 space-y-2">
               {shipments.map((shipment) => (
-                <ShipmentRow key={shipment.id} shipment={shipment} onCopy={handleCopy} onClick={() => router.push(`/dashboard/shipments/${shipment.id}`)} />
+                <MobileShipmentCard key={shipment.id} shipment={shipment} onClick={() => router.push(`/dashboard/shipments/${shipment.id}`)} />
               ))}
-            </TableBody>
-          </Table>
+            </div>
+
+            {/* Desktop table */}
+            <div className="hidden md:block overflow-x-auto">
+              <Table>
+                <TableHeader className="bg-slate-50/50">
+                  <TableRow className="hover:bg-transparent border-b-slate-100">
+                    <TableHead 
+                      className="w-48 cursor-pointer hover:text-slate-900 transition-colors"
+                      onClick={() => handleSort("trackingNumber")}
+                    >
+                      <div className="flex items-center gap-1 font-bold">
+                        Tracking #
+                        {sortBy === "trackingNumber" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="w-48 cursor-pointer hover:text-slate-900 transition-colors font-bold"
+                      onClick={() => handleSort("recipient")}
+                    >
+                      <div className="flex items-center gap-1">
+                        Recipient
+                        {sortBy === "recipient" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
+                      </div>
+                    </TableHead>
+                    <TableHead className="w-32 font-bold">Carrier</TableHead>
+                    <TableHead className="w-48 font-bold">Route</TableHead>
+                    <TableHead 
+                      className="w-44 cursor-pointer hover:text-slate-900 transition-colors font-bold"
+                      onClick={() => handleSort("status")}
+                    >
+                      <div className="flex items-center gap-1">
+                        Status
+                        {sortBy === "status" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="w-36 cursor-pointer hover:text-slate-900 transition-colors font-bold"
+                      onClick={() => handleSort("estimatedDelivery")}
+                    >
+                      <div className="flex items-center gap-1">
+                        Est. Delivery
+                        {sortBy === "estimatedDelivery" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
+                      </div>
+                    </TableHead>
+                    <TableHead 
+                      className="w-28 cursor-pointer hover:text-slate-900 transition-colors font-bold"
+                      onClick={() => handleSort("createdAt")}
+                    >
+                      <div className="flex items-center gap-1">
+                        Created
+                        {sortBy === "createdAt" && (order === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
+                      </div>
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {shipments.map((shipment) => (
+                    <ShipmentRow key={shipment.id} shipment={shipment} onCopy={handleCopy} onClick={() => router.push(`/dashboard/shipments/${shipment.id}`)} />
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </>
         )}
       </div>
 

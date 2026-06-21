@@ -31,10 +31,10 @@ export default function AIInsightsCard() {
   ];
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6 h-full flex flex-col">
-      <h3 className="font-bold text-slate-900 mb-6">TransitIQ Intelligence</h3>
+    <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-6 h-full flex flex-col">
+      <h3 className="font-bold text-slate-900 mb-4 md:mb-6">TransitIQ Intelligence</h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 flex-1">
         {insights.map((insight, i) => (
           <div key={i} className="flex flex-col justify-between border border-slate-100 rounded-xl p-5 hover:border-slate-200 transition-colors">
             <div className="flex gap-4 items-start mb-6">

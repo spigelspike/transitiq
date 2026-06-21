@@ -78,7 +78,7 @@ export default function AuthGroupLayout({ children }: { children: React.ReactNod
             {/* Next button */}
             <button onClick={handleNext}
               className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #4F46E5, #8B5CF6)" }}
+              style={{ background: "#3777fe" }}
             >
               <ChevronRight className="w-5 h-5 text-white" />
             </button>

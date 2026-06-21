@@ -22,14 +22,71 @@ const pieData = [
 
 export default function ShipmentHealth() {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6 w-full">
+    <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-6 w-full">
       {/* Header */}
-      <div className="flex items-center gap-1.5 mb-6">
+      <div className="flex items-center gap-1.5 mb-4 md:mb-6">
         <h3 className="font-bold text-slate-900">Shipment Health</h3>
         <Info className="w-4 h-4 text-slate-400" />
       </div>
 
-      <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+      {/* Mobile layout: stacked cards */}
+      <div className="md:hidden space-y-4">
+        {/* KPI card */}
+        <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <span className="text-3xl font-bold text-blue-600 tracking-tight">96.7%</span>
+            <p className="text-xs font-medium text-slate-500 mt-0.5">On-time delivery</p>
+          </div>
+          <div className="flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">
+            <ArrowUpRight className="w-3 h-3" />
+            2.4%
+          </div>
+        </div>
+
+        {/* Area chart */}
+        <div className="h-[120px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={trendData} margin={{ top: 5, right: 5, left: -30, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorValueMobile" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#2563EB" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis 
+                dataKey="date" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{ fontSize: 10, fill: '#94A3B8' }} 
+                dy={5}
+              />
+              <YAxis hide />
+              <Area 
+                type="monotone" 
+                dataKey="value" 
+                stroke="#2563EB" 
+                strokeWidth={2}
+                fillOpacity={1} 
+                fill="url(#colorValueMobile)" 
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Legend row */}
+        <div className="flex items-center justify-between gap-2">
+          {pieData.map((item, i) => (
+            <div key={i} className="flex items-center gap-2 bg-slate-50 rounded-lg px-3 py-2 flex-1 justify-center">
+              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+              <span className="text-xs font-semibold text-slate-700">{item.name}</span>
+              <span className="text-xs font-bold text-slate-900">{item.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop layout: horizontal */}
+      <div className="hidden md:flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         {/* Left Stats */}
         <div className="flex flex-col shrink-0 min-w-[140px]">
           <span className="text-5xl font-bold text-blue-600 tracking-tight mb-1">96.7%</span>
