@@ -87,12 +87,49 @@ export default function LandingPage() {
               <span className="text-sm"></span> Now supporting BlueDart
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-              className="mb-6 flex justify-center"
-            >
-              <img src="/logo.png" alt="TransitIQ Logo" className="h-20 md:h-28 w-auto object-contain" />
-            </motion.div>
+            <div className="mb-10 flex items-center justify-center gap-3 md:gap-5">
+              <motion.div
+                initial={{ scale: 0, opacity: 0, rotate: -15 }}
+                animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
+              >
+                <img src="/box.png" alt="TransitIQ Box Logo" className="h-16 md:h-24 w-auto object-contain" />
+              </motion.div>
+              
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 1 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.08,
+                      delayChildren: 0.4,
+                    }
+                  }
+                }}
+                className="flex text-6xl md:text-[5.5rem] tracking-tight text-slate-900"
+                style={{ fontFamily: '"Futura", "Futura Medium", sans-serif', fontWeight: 500 }}
+              >
+                {"TransitIQ".split("").map((char, index) => {
+                  const isIQ = index >= 7; // 'I' and 'Q'
+                  return (
+                    <motion.span
+                      key={index}
+                      variants={{
+                        hidden: { opacity: 0, x: -10, filter: "blur(4px)" },
+                        visible: { opacity: 1, x: 0, filter: "blur(0px)" }
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className={isIQ ? "text-indigo-600" : ""}
+                    >
+                      {char}
+                    </motion.span>
+                  );
+                })}
+              </motion.div>
+            </div>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
