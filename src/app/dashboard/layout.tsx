@@ -185,14 +185,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex selection:bg-blue-500/30">
+    <div className="min-h-screen bg-[#F8FAFC] flex selection:bg-blue-500/30 overflow-x-hidden w-full max-w-[100vw]">
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-64 fixed inset-y-0 left-0 z-50 border-r border-slate-200/50">
         <SidebarContent />
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col md:ml-64 min-h-screen relative">
+      <div className="flex-1 flex flex-col md:ml-64 min-h-screen relative w-full max-w-[100vw] overflow-x-hidden">
         {/* Mobile Header (replaces the desktop header which is now embedded in page.tsx) */}
         <header className="md:hidden h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 sticky top-0 z-40 shadow-sm">
           <Link href="/dashboard" className="flex items-center gap-2">
