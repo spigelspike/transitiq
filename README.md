@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="public/logo.png" alt="TransitIQ Logo" width="200" />
+</div>
+
 # TransitIQ
 
 TransitIQ is a modern, high-fidelity Logistics Intelligence Platform built as a robust dashboard and landing page system. It provides comprehensive visibility across logistics networks (FedEx, UPS, DHL, USPS, BlueDart) through a seamless, premium user interface.
