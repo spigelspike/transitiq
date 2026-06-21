@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -15,17 +15,12 @@ import {
   Hexagon,
   LogOut,
   MessageSquareWarning,
-  MessageSquare
+  MessageSquare,
+  User,
+  ChevronUp
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const NAV_ITEMS = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -38,6 +33,89 @@ const NAV_ITEMS = [
   { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
+
+function UserProfileMenu({ router, variant = "desktop" }: { router: ReturnType<typeof useRouter>; variant?: "desktop" | "mobile" }) {
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [open]);
+
+  const menuItems = (
+    <div className="absolute z-[100] w-56 rounded-xl bg-white border border-slate-200 shadow-xl py-1 animate-in fade-in-0 zoom-in-95 duration-100"
+      style={variant === "desktop" ? { bottom: "100%", left: 0, marginBottom: 8 } : { top: "100%", right: 0, marginTop: 8 }}
+    >
+      <div className="px-3 py-2.5">
+        <p className="text-sm font-bold text-slate-900">Alex Morgan</p>
+        <p className="text-xs text-slate-500">alex@transitiq.com</p>
+      </div>
+      <div className="h-px bg-slate-100 mx-1" />
+      <button
+        onClick={() => { setOpen(false); router.push("/dashboard/profile"); }}
+        className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+      >
+        <User className="w-4 h-4" /> Profile
+      </button>
+      <button
+        onClick={() => { setOpen(false); router.push("/dashboard/settings"); }}
+        className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+      >
+        <Settings className="w-4 h-4" /> Settings
+      </button>
+      <div className="h-px bg-slate-100 mx-1" />
+      <button
+        onClick={() => {
+          setOpen(false);
+          toast.success("Signing out...", { duration: 1500 });
+          setTimeout(() => window.location.href = "/sign-in", 1000);
+        }}
+        className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+      >
+        <LogOut className="w-4 h-4" /> Sign out
+      </button>
+    </div>
+  );
+
+  if (variant === "mobile") {
+    return (
+      <div className="relative" ref={menuRef}>
+        <button onClick={() => setOpen(!open)} className="focus:outline-none">
+          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-700 hover:ring-2 ring-blue-100 transition-all">
+            AM
+          </div>
+        </button>
+        {open && menuItems}
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-6 shrink-0 relative" ref={menuRef}>
+      <button onClick={() => setOpen(!open)} className="w-full focus:outline-none">
+        <div className="flex items-center gap-3 group text-left">
+          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-sm font-bold text-blue-700 shrink-0 group-hover:ring-2 ring-blue-100 transition-all">
+            AM
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-slate-900 truncate">Alex Morgan</p>
+            <p className="text-xs font-medium text-slate-500 truncate">Admin</p>
+          </div>
+          <ChevronUp className={`w-4 h-4 text-slate-400 transition-transform ${open ? "" : "rotate-180"}`} />
+        </div>
+      </button>
+      {open && menuItems}
+    </div>
+  );
+}
 
 function SidebarContent() {
   const pathname = usePathname();
@@ -76,55 +154,7 @@ function SidebarContent() {
       </div>
 
       {/* User Section */}
-      <div className="p-6 shrink-0">
-        <DropdownMenu>
-          <DropdownMenuTrigger className="w-full focus:outline-none">
-            <div className="flex items-center gap-3 group text-left">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-sm font-bold text-blue-700 shrink-0 group-hover:ring-2 ring-blue-100 transition-all">
-                AM
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-slate-900 truncate">Alex Morgan</p>
-                <p className="text-xs font-medium text-slate-500 truncate">Admin</p>
-              </div>
-              <ArrowRightIcon className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56 mt-2 rounded-xl">
-            <div className="px-1.5 py-1.5">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-bold text-slate-900 leading-none">Alex Morgan</p>
-                <p className="text-xs text-slate-500 leading-none text-muted-foreground">alex@transitiq.com</p>
-              </div>
-            </div>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem 
-              className="cursor-pointer font-medium text-slate-700"
-              onClick={() => router.push("/dashboard/profile")}
-            >
-              Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem 
-              className="cursor-pointer font-medium text-slate-700"
-              onClick={() => router.push("/dashboard/settings")}
-            >
-              Settings
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem 
-              className="cursor-pointer font-medium text-red-600 hover:text-red-700 focus:text-red-700 flex items-center"
-              onClick={() => {
-                toast.success("Signing out...", { duration: 1500 });
-                // Simulate redirect
-                setTimeout(() => window.location.href = "/sign-in", 1000);
-              }}
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Sign out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      <UserProfileMenu router={router} />
     </div>
   );
 }
@@ -140,6 +170,7 @@ function ArrowRightIcon(props: React.ComponentProps<"svg">) {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
 
   // Global search shortcut
   useEffect(() => {
@@ -175,45 +206,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Bell className="w-5 h-5" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white"></span>
             </button>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="focus:outline-none">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-700 hover:ring-2 ring-blue-100 transition-all">
-                  AM
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 mt-2 rounded-xl">
-                <div className="px-1.5 py-1.5">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-bold text-slate-900 leading-none">Alex Morgan</p>
-                    <p className="text-xs text-slate-500 leading-none text-muted-foreground">alex@transitiq.com</p>
-                  </div>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem 
-                  className="cursor-pointer font-medium text-slate-700"
-                  onClick={() => router.push("/dashboard/profile")}
-                >
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  className="cursor-pointer font-medium text-slate-700"
-                  onClick={() => router.push("/dashboard/settings")}
-                >
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem 
-                  className="cursor-pointer font-medium text-red-600 hover:text-red-700 focus:text-red-700 flex items-center"
-                  onClick={() => {
-                    toast.success("Signing out...", { duration: 1500 });
-                    setTimeout(() => window.location.href = "/sign-in", 1000);
-                  }}
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <UserProfileMenu router={router} variant="mobile" />
           </div>
         </header>
 
